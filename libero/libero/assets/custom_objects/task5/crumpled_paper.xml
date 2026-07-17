@@ -1,0 +1,45 @@
+<mujoco model="crumpled_paper">
+  <asset>
+    <texture name="paper_fiber" type="2d" builtin="checker" width="128" height="128" rgb1="0.84 0.79 0.68" rgb2="0.91 0.87 0.77" />
+    <material name="paper_collision_invisible" rgba="0.86 0.80 0.68 0" specular="0.0" shininess="0.0" />
+    <material name="paper_base" texture="paper_fiber" rgba="0.90 0.86 0.76 1" specular="0.0" shininess="0.0" />
+    <material name="paper_light" rgba="0.96 0.93 0.84 1" specular="0.0" shininess="0.0" />
+    <material name="paper_shadow" rgba="0.68 0.61 0.49 1" specular="0.0" shininess="0.0" />
+    <material name="paper_edge" rgba="0.76 0.69 0.56 1" specular="0.0" shininess="0.0" />
+    <mesh
+      name="wrinkled_sheet"
+      vertex="
+        -0.044 -0.031 0.011  -0.021 -0.034 0.018   0.003 -0.031 0.012   0.025 -0.034 0.020   0.044 -0.027 0.013
+        -0.047 -0.014 0.021  -0.023 -0.013 0.010   0.002 -0.017 0.024   0.022 -0.012 0.012   0.042 -0.016 0.022
+        -0.042  0.003 0.012  -0.017  0.002 0.026   0.000  0.000 0.009   0.022  0.003 0.026   0.045  0.004 0.013
+        -0.046  0.020 0.023  -0.024  0.018 0.012   0.003  0.017 0.027   0.024  0.020 0.011   0.041  0.019 0.022
+        -0.039  0.033 0.013  -0.017  0.036 0.022   0.005  0.032 0.014   0.025  0.035 0.021   0.042  0.030 0.012
+      "
+      texcoord="
+        0.00 0.00  0.25 0.00  0.50 0.00  0.75 0.00  1.00 0.00
+        0.00 0.25  0.25 0.25  0.50 0.25  0.75 0.25  1.00 0.25
+        0.00 0.50  0.25 0.50  0.50 0.50  0.75 0.50  1.00 0.50
+        0.00 0.75  0.25 0.75  0.50 0.75  0.75 0.75  1.00 0.75
+        0.00 1.00  0.25 1.00  0.50 1.00  0.75 1.00  1.00 1.00
+      "
+      face="
+        0 1 5   1 6 5   1 2 6   2 7 6   2 3 7   3 8 7   3 4 8   4 9 8
+        5 6 10  6 11 10  6 7 11  7 12 11  7 8 12  8 13 12  8 9 13  9 14 13
+        10 11 15  11 16 15  11 12 16  12 17 16  12 13 17  13 18 17  13 14 18  14 19 18
+        15 16 20  16 21 20  16 17 21  17 22 21  17 18 22  18 23 22  18 19 23  19 24 23
+      "
+    />
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <geom name="paper_cushion_collision" type="ellipsoid" pos="0 0 0.016" size="0.044 0.031 0.012" material="paper_collision_invisible" group="0" friction="1.4 0.45 0.1" solref="0.025 1" solimp="0.80 0.95 0.002" />
+
+        <geom name="wrinkled_sheet_visual" type="mesh" mesh="wrinkled_sheet" material="paper_base" group="1" contype="0" conaffinity="0" />
+      </body>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.004" name="bottom_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.042" name="top_site" />
+      <site rgba="0 0 0 0" size="0.046" pos="0.046 0.046 0" name="horizontal_radius_site" />
+    </body>
+  </worldbody>
+</mujoco>

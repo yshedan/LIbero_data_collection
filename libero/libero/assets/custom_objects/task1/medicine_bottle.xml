@@ -1,0 +1,28 @@
+<mujoco model="medicine_bottle">
+  <worldbody>
+    <body>
+      <body name="object">
+        <geom name="bottle_body" type="cylinder" pos="0 0 0.034"
+              size="0.018 0.034" rgba="0 0 0 0"
+              density="800" friction="0.95 0.3 0.1"
+              solimp="0.998 0.998 0.001" solref="0.001 1" group="0"/>
+        <geom name="bottle_body_visual" type="cylinder" pos="0 0 0.034"
+              size="0.018 0.034" rgba="0.95 0.95 0.90 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="bottle_label" type="cylinder" pos="0 0 0.035"
+              size="0.0184 0.018" rgba="0.30 0.65 0.90 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="bottle_neck" type="cylinder" pos="0 0 0.073"
+              size="0.012 0.006" rgba="0.93 0.93 0.88 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="bottle_cap" type="cylinder" pos="0 0 0.082"
+              size="0.014 0.006" rgba="0.15 0.35 0.70 1"
+              contype="0" conaffinity="0" group="1"/>
+      </body>
+      <site name="bottom_site" pos="0 0 0" size="0.003" rgba="0 0 0 0"/>
+      <site name="top_site" pos="0 0 0.088" size="0.003" rgba="0 0 0 0"/>
+      <site name="horizontal_radius_site" pos="0.019 0 0.044"
+            size="0.003" rgba="0 0 0 0"/>
+    </body>
+  </worldbody>
+</mujoco>

@@ -1,0 +1,54 @@
+<mujoco model="care_box">
+  <asset>
+    <texture name="care_basket_texture"
+             file="../../stable_scanned_objects/basket/texture.png" type="2d"/>
+    <material name="care_basket_material" texture="care_basket_texture"
+              texrepeat="1 1" reflectance="0.25"/>
+    <mesh name="care_basket_mesh"
+          file="../../stable_scanned_objects/basket/visual/basket_vis.msh"
+          scale="1.08 1.08 0.82"/>
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <site name="contain_region" type="box" pos="0 0 0.050"
+              quat="1 0 0 0" size="0.055 0.055 0.045" rgba="0 0 0 0"/>
+        <geom name="basket_visual" type="mesh" mesh="care_basket_mesh"
+              material="care_basket_material" rgba="0.90 0.96 1 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="basket_bottom" type="box" pos="0 0 0.006"
+              size="0.072 0.072 0.006" rgba="0 0 0 0"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="basket_left_wall" type="box" pos="-0.072 0 0.046"
+              size="0.006 0.072 0.046" rgba="0 0 0 0"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="basket_right_wall" type="box" pos="0.072 0 0.046"
+              size="0.006 0.072 0.046" rgba="0 0 0 0"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="basket_front_wall" type="box" pos="0 -0.072 0.046"
+              size="0.072 0.006 0.046" rgba="0 0 0 0"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="basket_back_wall" type="box" pos="0 0.072 0.046"
+              size="0.072 0.006 0.046" rgba="0 0 0 0"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <!-- The agentview camera is on +X, so place the medical mark on
+             the +X wall and make the cross span the Y-Z plane. -->
+        <geom name="medical_mark_v" type="box" pos="0.084 0 0.058"
+              size="0.001 0.006 0.020" rgba="0.85 0.12 0.16 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="medical_mark_h" type="box" pos="0.085 0 0.058"
+              size="0.001 0.020 0.006" rgba="0.85 0.12 0.16 1"
+              contype="0" conaffinity="0" group="1"/>
+      </body>
+      <site name="bottom_site" pos="0 0 -0.040" size="0.003" rgba="0 0 0 0"/>
+      <site name="top_site" pos="0 0 0.122" size="0.003" rgba="0 0 0 0"/>
+      <site name="horizontal_radius_site" pos="0.082 0.082 0.060"
+            size="0.003" rgba="0 0 0 0"/>
+    </body>
+  </worldbody>
+</mujoco>

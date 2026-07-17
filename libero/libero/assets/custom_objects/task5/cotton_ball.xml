@@ -1,0 +1,26 @@
+<mujoco model="cotton_ball">
+  <asset>
+    <material name="cotton_soft_white" rgba="0.95 0.94 0.88 1" specular="0.0" shininess="0.0" />
+    <material name="cotton_warm_white" rgba="0.90 0.89 0.84 1" specular="0.0" shininess="0.0" />
+    <material name="cotton_shadow" rgba="0.78 0.78 0.72 1" specular="0.0" shininess="0.0" />
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <geom name="cotton_core_collision" type="sphere" pos="0 0 0.027" size="0.030" material="cotton_soft_white" group="0" friction="1.5 0.45 0.1" />
+
+        <geom name="cotton_lump_center_visual" type="ellipsoid" pos="0.000 0.000 0.027" size="0.024 0.020 0.018" material="cotton_soft_white" group="1" contype="0" conaffinity="0" />
+        <geom name="cotton_lump_front_visual" type="ellipsoid" pos="-0.004 -0.017 0.029" size="0.018 0.013 0.015" material="cotton_warm_white" group="1" contype="0" conaffinity="0" />
+        <geom name="cotton_lump_back_visual" type="ellipsoid" pos="0.007 0.016 0.026" size="0.017 0.014 0.014" material="cotton_soft_white" group="1" contype="0" conaffinity="0" />
+        <geom name="cotton_lump_left_visual" type="ellipsoid" pos="-0.018 0.002 0.025" size="0.014 0.017 0.013" material="cotton_warm_white" group="1" contype="0" conaffinity="0" />
+        <geom name="cotton_lump_right_visual" type="ellipsoid" pos="0.018 -0.003 0.027" size="0.015 0.016 0.014" material="cotton_soft_white" group="1" contype="0" conaffinity="0" />
+        <geom name="cotton_lump_top_visual" type="ellipsoid" pos="-0.003 0.004 0.043" size="0.015 0.013 0.010" material="cotton_soft_white" group="1" contype="0" conaffinity="0" />
+        <geom name="cotton_lump_low_front_visual" type="ellipsoid" pos="0.010 -0.009 0.015" size="0.014 0.012 0.009" material="cotton_shadow" group="1" contype="0" conaffinity="0" />
+        <geom name="cotton_lump_low_back_visual" type="ellipsoid" pos="-0.009 0.010 0.016" size="0.013 0.012 0.009" material="cotton_shadow" group="1" contype="0" conaffinity="0" />
+      </body>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.004" name="bottom_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.058" name="top_site" />
+      <site rgba="0 0 0 0" size="0.032" pos="0.032 0.032 0" name="horizontal_radius_site" />
+    </body>
+  </worldbody>
+</mujoco>

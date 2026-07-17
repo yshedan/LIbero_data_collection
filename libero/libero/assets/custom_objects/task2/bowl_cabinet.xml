@@ -1,0 +1,83 @@
+<mujoco model="bowl_cabinet">
+  <worldbody>
+    <body>
+      <body name="object">
+        <site name="bowl_contain_region" type="box" pos="-0.064 0 0.080"
+              quat="1 0 0 0" size="0.070 0.088 0.070" rgba="0 0 0 0"/>
+        <site name="utensil_contain_region" type="box" pos="0.064 0 0.080"
+              quat="1 0 0 0" size="0.070 0.088 0.070" rgba="0 0 0 0"/>
+        <site name="contain_region" type="box" pos="0 0 0.080"
+              quat="1 0 0 0" size="0.138 0.088 0.070" rgba="0 0 0 0"/>
+
+        <geom name="wood_bottom" type="box" pos="0 0 0.014"
+              size="0.142 0.092 0.014" rgba="0.25 0.14 0.07 1"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="wood_bottom_visual" type="box" pos="0 0 0.014"
+              size="0.142 0.092 0.014" rgba="0.25 0.14 0.07 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="inner_floor" type="box" pos="0 0 0.032"
+              size="0.130 0.080 0.005" rgba="0.82 0.58 0.34 1"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="inner_floor_visual" type="box" pos="0 0 0.032"
+              size="0.130 0.080 0.005" rgba="0.82 0.58 0.34 1"
+              contype="0" conaffinity="0" group="1"/>
+
+        <geom name="left_wall" type="box" pos="-0.142 0 0.063"
+              size="0.005 0.092 0.047" rgba="0.60 0.38 0.20 1"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="right_wall" type="box" pos="0.142 0 0.063"
+              size="0.005 0.092 0.047" rgba="0.60 0.38 0.20 1"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="front_wall" type="box" pos="0 -0.092 0.063"
+              size="0.142 0.005 0.047" rgba="0.60 0.38 0.20 1"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="back_wall" type="box" pos="0 0.092 0.063"
+              size="0.142 0.005 0.047" rgba="0.60 0.38 0.20 1"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="middle_divider" type="box" pos="0 0 0.063"
+              size="0.004 0.084 0.042" rgba="0.57 0.35 0.17 1"
+              density="5000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+
+        <geom name="left_wall_visual" type="box" pos="-0.142 0 0.063"
+              size="0.005 0.092 0.047" rgba="0.60 0.38 0.20 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="right_wall_visual" type="box" pos="0.142 0 0.063"
+              size="0.005 0.092 0.047" rgba="0.60 0.38 0.20 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="front_wall_visual" type="box" pos="0 -0.092 0.063"
+              size="0.142 0.005 0.047" rgba="0.60 0.38 0.20 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="back_wall_visual" type="box" pos="0 0.092 0.063"
+              size="0.142 0.005 0.047" rgba="0.60 0.38 0.20 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="middle_divider_visual" type="box" pos="0 0 0.063"
+              size="0.004 0.084 0.042" rgba="0.57 0.35 0.17 1"
+              contype="0" conaffinity="0" group="1"/>
+
+        <geom name="front_rim_visual" type="box" pos="0 -0.097 0.111"
+              size="0.147 0.003 0.004" rgba="0.34 0.20 0.09 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="back_rim_visual" type="box" pos="0 0.097 0.111"
+              size="0.147 0.003 0.004" rgba="0.34 0.20 0.09 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="left_rim_visual" type="box" pos="-0.147 0 0.111"
+              size="0.003 0.097 0.004" rgba="0.34 0.20 0.09 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="right_rim_visual" type="box" pos="0.147 0 0.111"
+              size="0.003 0.097 0.004" rgba="0.34 0.20 0.09 1"
+              contype="0" conaffinity="0" group="1"/>
+      </body>
+      <site name="bottom_site" pos="0 0 -0.004" size="0.003" rgba="0 0 0 0"/>
+      <site name="top_site" pos="0 0 0.116" size="0.003" rgba="0 0 0 0"/>
+      <site name="horizontal_radius_site" pos="0.150 0 0.063"
+            size="0.003" rgba="0 0 0 0"/>
+    </body>
+  </worldbody>
+</mujoco>

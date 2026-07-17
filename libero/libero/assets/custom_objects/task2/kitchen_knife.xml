@@ -1,0 +1,50 @@
+<mujoco model="kitchen_knife">
+  <worldbody>
+    <body>
+      <body name="object">
+        <geom name="knife_handle_collision" type="box"
+              pos="-0.048 0 0.014" size="0.036 0.012 0.006"
+              rgba="0 0 0 0" density="750"
+              friction="1.2 0.01 0.0001" group="0"/>
+        <geom name="knife_blade_collision" type="box"
+              pos="0.023 0 0.014" size="0.048 0.010 0.004"
+              rgba="0 0 0 0" density="750"
+              friction="1.2 0.01 0.0001" group="0"/>
+
+        <geom name="wood_handle_main_visual" type="ellipsoid"
+              pos="-0.050 0 0.016" size="0.040 0.013 0.006"
+              rgba="0.30 0.16 0.07 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="wood_handle_grip_visual" type="box"
+              pos="-0.050 0 0.017" size="0.030 0.010 0.003"
+              rgba="0.43 0.24 0.11 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="handle_end_cap_visual" type="ellipsoid"
+              pos="-0.087 0 0.016" size="0.009 0.012 0.005"
+              rgba="0.18 0.10 0.05 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="metal_bolster_visual" type="box"
+              pos="-0.010 0 0.016" size="0.006 0.014 0.005"
+              rgba="0.70 0.70 0.68 1"
+              contype="0" conaffinity="0" group="1"/>
+
+        <geom name="blade_back_visual" type="box"
+              pos="0.030 0.0033 0.016" size="0.044 0.006 0.0032"
+              rgba="0.78 0.80 0.82 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="blade_edge_visual" type="box"
+              pos="0.031 -0.0053 0.015" size="0.043 0.003 0.0022"
+              rgba="0.92 0.93 0.94 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="blade_round_end_visual" type="ellipsoid"
+              pos="0.073 -0.0010 0.016" size="0.007 0.008 0.003"
+              rgba="0.86 0.88 0.90 1"
+              contype="0" conaffinity="0" group="1"/>
+      </body>
+      <site name="bottom_site" pos="0 0 0.006" size="0.003" rgba="0 0 0 0"/>
+      <site name="top_site" pos="0 0 0.024" size="0.003" rgba="0 0 0 0"/>
+      <site name="horizontal_radius_site" pos="0.065 0 0.014"
+            size="0.003" rgba="0 0 0 0"/>
+    </body>
+  </worldbody>
+</mujoco>

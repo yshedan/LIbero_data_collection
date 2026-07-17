@@ -1,0 +1,315 @@
+# 医疗护理桌整理任务数据采集流程
+
+下面命令默认在项目根目录运行：
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+```
+
+注意：整条流程都使用追加模式，不要加 `--overwrite`，避免覆盖之前采集的数据。
+
+
+## 1. 使用键盘采集演示数据
+
+先进入 LIBERO 采集环境：
+
+```bash
+conda activate libero
+```
+
+运行键盘采集程序：
+
+```bash
+python scripts/collect_demonstration.py \
+  --device keyboard \
+  --camera agentview \
+  --num-demonstration 1 \
+  --task-index 1 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/MEDICAL_CARE_TWO_BOX_SCENE_put_the_medicine_bottle_and_the_bandage_in_the_care_box,_and_put_the_scissors_in_the_instrument_box.bddl"
+```
+
+说明：默认使用 robosuite / LIBERO 原始键盘动作映射，不额外改变平移或旋转坐标系。这样采集到的 `actions` 和 LIBERO 公开数据的动作语义保持一致，便于和原始 LIBERO 数据混合训练。
+
+如果这一批数据要和 LIBERO 原始数据一起训练，建议不要只对新采集数据开启 `--smooth-actions`，否则新数据的动作标签分布会和原始数据不完全一致。
+
+采集成功后，会生成一个 `demo.hdf5` 文件，位置通常在：
+
+```text
+demonstration_data/task1/robosuite_ln_libero_tabletop_manipulation_年月日_时分秒_任务名/demo.hdf5
+```
+
+例如：
+
+```text
+demonstration_data/task1/robosuite_ln_libero_tabletop_manipulation_20260622_105543_put_the_medicine_bottle_and_the_bandage_in_the_care_box,_and_put_the_scissors_in_the_instrument_box/demo.hdf5
+```
+
+
+## 2. 将 demo.hdf5 转换为 raw 数据格式
+
+仍然使用 `libero` 环境：
+
+```bash
+conda activate libero
+```
+
+如果采集时使用了 `--smooth-actions`，最终 `demo.hdf5` 中保存的动作已经是平滑后的动作标签。平滑只作用于机械臂连续运动动作，夹爪开合动作保持不变。
+
+将下面命令中的 `--demo-file` 替换成实际生成的 `demo.hdf5` 路径：
+
+```bash
+python scripts/data/convert_libero_hdf5_to_demand_raw.py \
+  --demo-file "/home/ysd/NewDisk/ysd/code/LIBERO/demonstration_data/robosuite_ln_libero_tabletop_manipulation_20260622_105543_put_the_medicine_bottle_and_the_bandage_in_the_care_box,_and_put_the_scissors_in_the_instrument_box/demo.hdf5" \
+  --output-dir data/libero_demand_raw_keyboard \
+  --save-videos \
+  --append
+```
+
+输出目录：
+
+```text
+data/libero_demand_raw_keyboard
+```
+
+
+## 3. 将 raw 数据转换为 LeRobot 数据格式
+
+切换到 LeRobot 转换环境：
+
+```bash
+conda activate lerobot310
+```
+
+运行转换：
+
+```bash
+python scripts/data/convert_libero_demand_raw_to_lerobot.py \
+  --source-dir data/libero_demand_raw_keyboard \
+  --target-repo-id local/modified_libero_rlds\
+  --target-dir data/modified_libero_rlds \
+  --append
+```
+
+输出目录：
+
+```text
+data/modified_libero_rlds
+```
+
+
+## 4. 数据过滤并标注执行需求
+
+这一步会根据轨迹指标，为数据分配 `fast`、`safe`、`stable` 等执行需求标签。
+
+```bash
+python scripts/data/filter_libero_demand_dataset.py \
+  --source-repo-id local/modified_libero_rlds \
+  --source-dir data/modified_libero_rlds \
+  --target-repo-id local/modified_libero_rlds_filtered \
+  --target-dir data/modified_libero_rlds_filtered \
+  --append
+```
+
+输出目录：
+
+```text
+data/modified_libero_rlds_filtered
+```
+
+
+## 5. 标注原子技能
+
+这一步会根据 `semantic_states` 自动标注每条轨迹中的原子技能片段。
+
+```bash
+python scripts/data/annotate_libero_atomic_skills.py \
+  --source-repo-id local/modified_libero_rlds_filtered \
+  --source-dir data/modified_libero_rlds_filtered \
+  --output-json data_split_json/modified_libero_rlds_atomic_skills.json \
+  --append
+```
+
+输出文件：
+
+```text
+data_split_json/modified_libero_rlds_atomic_skills.json
+```
+
+
+## 6. 提取原子技能链
+
+这一步会从原子技能标注结果中提取每条轨迹对应的技能序列。
+
+```bash
+python scripts/data/extract_libero_atomic_skill_sequences.py \
+  --source-json data_split_json/modified_libero_rlds_atomic_skills.json \
+  --output-json data_split_json/modified_libero_rlds_atomic_skill_sequences.json \
+  --append
+```
+
+输出文件：
+
+```text
+data_split_json/modified_libero_rlds_atomic_skill_sequences.json
+```
+
+
+## 7. 常用检查命令
+
+查看 raw 数据 episode 数量：
+
+```bash
+ls data/libero_demand_raw_keyboard/episodes
+```
+
+查看 LeRobot 过滤后元数据：
+
+```bash
+head -1 data/medical_care_keyboard_filtered/episode_metadata.jsonl
+```
+
+查看原子技能链结果：
+
+```bash
+cat data_split_json/medical_care_atomic_skill_sequences.json
+```
+
+数据处理后保存路径： /home/ysd/NewDisk/ysd/code/LIBERO/data/modified_libero_rlds_filtered
+数据对应的原子技能切分标注文件保存路径：/home/ysd/NewDisk/ysd/code/LIBERO/data_split_json/modified_libero_rlds_atomic_skills.json
+
+
+## 8. datasets0 五个自定义任务单独采集指令
+
+下面这组命令用于把新采集的 5 个任务分别保存到：
+
+```text
+/home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0
+```
+
+每个任务单独一个文件夹，文件夹名取 BDDL 文件名前两个单词：
+
+```text
+medical_care
+kitchen_prep
+drawer_ring
+hot_coffee
+glass_packaging
+```
+
+说明：
+
+```text
+1. 不要加 --fixed-init-state，这样每次采集的初始物体位置可以随机变化。
+2. --num-demonstration 30 表示采集 30 条成功轨迹，可以按需要改成 1、10、50 等。
+3. 每成功一条轨迹会单独保存为一个 demo.hdf5，然后自动 reset 继续采集下一条，不会成功一条就退出程序。
+   保存形式类似：时间戳目录/demo_000001/demo.hdf5、时间戳目录/demo_000002/demo.hdf5。
+4. 如果使用 Meta Quest Pro，运行前确认 adb devices 显示状态为 device。
+```
+
+先进入环境：
+
+```bash
+conda activate libero
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+```
+
+
+### 8.1 medical_care
+
+```bash
+python scripts/collect_demonstration.py \
+  --device metaquest \
+  --metaquest-controller right \
+  --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/medical_care \
+  --camera agentview \
+  --num-demonstration 30 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/MEDICAL_CARE_TWO_BOX_SCENE_put_the_medicine_bottle_and_the_bandage_in_the_care_box,_and_put_the_scissors_in_the_instrument_box.bddl"
+```
+
+
+### 8.2 kitchen_prep
+
+```bash
+python scripts/collect_demonstration.py \
+  --device metaquest \
+  --metaquest-controller right \
+  --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/kitchen_prep \
+  --camera agentview \
+  --num-demonstration 30 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/KITCHEN_PREP_COUNTER_SCENE_put_the_bowl_and_the_spoon_in_the_divided_cabinet,_and_put_the_knife_in_the_knife_rack.bddl"
+```
+
+
+### 8.3 drawer_ring
+
+```bash
+python scripts/collect_demonstration.py \
+  --device metaquest \
+  --metaquest-controller right \
+  --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/drawer_ring \
+  --camera agentview \
+  --num-demonstration 30 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/DRAWER_RING_ASSEMBLY_SCENE_insert_the_round_sleeve_onto_the_round_post_and_the_hex_sleeve_onto_the_hex_post_on_the_assembly_board.bddl"
+```
+
+
+### 8.4 hot_coffee
+
+```bash
+python scripts/collect_demonstration.py \
+  --device metaquest \
+  --metaquest-controller right \
+  --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/hot_coffee \
+  --camera agentview \
+  --num-demonstration 30 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/HOT_COFFEE_PAD_SCENE_move_the_hot_coffee_mug_from_the_heating_pad_to_the_coaster_and_turn_off_the_power.bddl"
+```
+
+
+### 8.5 glass_packaging
+
+```bash
+python scripts/collect_demonstration.py \
+  --device metaquest \
+  --metaquest-controller right \
+  --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/glass_packaging \
+  --camera agentview \
+  --num-demonstration 30 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/GLASS_PACKAGING_SCENE_put_the_glass_cup_in_the_cardboard_box_and_close_the_box_with_the_lid.bddl"
+```
+
+
+### 8.6 查看某个 demo.hdf5 中有几条轨迹
+
+先查找某个任务目录下生成的 `demo.hdf5` 文件：
+
+```bash
+find /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/medical_care -name "demo.hdf5" -print
+```
+
+然后把下面命令中的 `path` 替换成实际查到的 `demo.hdf5` 路径：
+
+```bash
+python - <<'PY'
+import h5py
+
+path = "/home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/medical_care/你的时间戳目录/demo_000001/demo.hdf5"
+
+with h5py.File(path, "r") as f:
+    demos = [key for key in f["data"].keys() if key.startswith("demo_")]
+    print("轨迹数量:", len(demos))
+    print("轨迹列表:", demos)
+PY
+```
+
+当前采集代码已经改成“一条成功轨迹一个 demo.hdf5”，所以这里通常会显示：
+
+```text
+轨迹数量: 1
+```

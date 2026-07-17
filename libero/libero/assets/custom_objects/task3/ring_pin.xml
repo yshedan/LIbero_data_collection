@@ -1,0 +1,44 @@
+<mujoco model="ring_pin">
+  <asset>
+    <material name="sleeve_mat" rgba="0.94 0.68 0.22 1"/>
+    <material name="sleeve_collision" rgba="0.94 0.68 0.22 0"/>
+    <mesh name="hollow_sleeve_visual" file="hollow_sleeve_visual.obj"/>
+  </asset>
+
+  <worldbody>
+    <body>
+      <body name="object">
+        <!-- Smooth hollow cylindrical sleeve: inner radius about 0.016 m, post radius 0.012 m. -->
+        <geom name="sleeve_col_00" type="box" pos="0.0203 0.0000 0.0190" euler="0 0 0.0000" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_01" type="box" pos="0.0195 0.0052 0.0190" euler="0 0 0.2618" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_02" type="box" pos="0.0176 0.0101 0.0190" euler="0 0 0.5236" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_03" type="box" pos="0.0143 0.0143 0.0190" euler="0 0 0.7854" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_04" type="box" pos="0.0102 0.0176 0.0190" euler="0 0 1.0472" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_05" type="box" pos="0.0052 0.0195 0.0190" euler="0 0 1.3090" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_06" type="box" pos="0.0000 0.0203 0.0190" euler="0 0 1.5708" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_07" type="box" pos="-0.0052 0.0195 0.0190" euler="0 0 1.8326" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_08" type="box" pos="-0.0101 0.0176 0.0190" euler="0 0 2.0944" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_09" type="box" pos="-0.0143 0.0143 0.0190" euler="0 0 2.3562" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_10" type="box" pos="-0.0176 0.0101 0.0190" euler="0 0 2.6180" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_11" type="box" pos="-0.0195 0.0052 0.0190" euler="0 0 2.8798" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_12" type="box" pos="-0.0203 0.0000 0.0190" euler="0 0 3.1416" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_13" type="box" pos="-0.0195 -0.0052 0.0190" euler="0 0 3.4034" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_14" type="box" pos="-0.0176 -0.0101 0.0190" euler="0 0 3.6652" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_15" type="box" pos="-0.0143 -0.0143 0.0190" euler="0 0 3.9270" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_16" type="box" pos="-0.0102 -0.0176 0.0190" euler="0 0 4.1888" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_17" type="box" pos="-0.0052 -0.0195 0.0190" euler="0 0 4.4506" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_18" type="box" pos="-0.0000 -0.0203 0.0190" euler="0 0 4.7124" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_19" type="box" pos="0.0052 -0.0195 0.0190" euler="0 0 4.9742" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_20" type="box" pos="0.0102 -0.0176 0.0190" euler="0 0 5.2360" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_21" type="box" pos="0.0143 -0.0143 0.0190" euler="0 0 5.4978" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_22" type="box" pos="0.0176 -0.0102 0.0190" euler="0 0 5.7596" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_col_23" type="box" pos="0.0195 -0.0052 0.0190" euler="0 0 6.0214" size="0.0041 0.0030 0.0170" material="sleeve_collision" density="1400" friction="1.4 0.02 0.001" solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="sleeve_visual" type="mesh" mesh="hollow_sleeve_visual" material="sleeve_mat" contype="0" conaffinity="0" group="1"/>
+      </body>
+
+      <site name="bottom_site" pos="0 0 0.002" size="0.003" rgba="0 0 0 0"/>
+      <site name="top_site" pos="0 0 0.036" size="0.003" rgba="0 0 0 0"/>
+      <site name="horizontal_radius_site" pos="0.024 0 0.019" size="0.003" rgba="0 0 0 0"/>
+    </body>
+  </worldbody>
+</mujoco>

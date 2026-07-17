@@ -1,0 +1,46 @@
+<mujoco model="hex_ring_pin">
+  <asset>
+    <material name="hex_sleeve_mat" rgba="0.34 0.78 0.50 1"/>
+    <material name="hex_sleeve_collision" rgba="0.34 0.78 0.50 0"/>
+    <mesh name="hex_sleeve_visual" file="hex_sleeve_visual.obj"/>
+  </asset>
+
+  <worldbody>
+    <body>
+      <body name="object">
+        <!-- Hollow hexagonal sleeve. Inner radius is about 0.016 m, larger than the hex post radius 0.012 m. -->
+        <geom name="hex_sleeve_col_00" type="box" pos="0.0207 0.0120 0.0200" euler="0 0 0.5236"
+              size="0.0043 0.0074 0.0180" material="hex_sleeve_collision"
+              density="1400" friction="1.4 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="hex_sleeve_col_01" type="box" pos="0.0000 0.0239 0.0200" euler="0 0 1.5708"
+              size="0.0043 0.0074 0.0180" material="hex_sleeve_collision"
+              density="1400" friction="1.4 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="hex_sleeve_col_02" type="box" pos="-0.0207 0.0120 0.0200" euler="0 0 2.6180"
+              size="0.0043 0.0074 0.0180" material="hex_sleeve_collision"
+              density="1400" friction="1.4 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="hex_sleeve_col_03" type="box" pos="-0.0207 -0.0120 0.0200" euler="0 0 3.6652"
+              size="0.0043 0.0074 0.0180" material="hex_sleeve_collision"
+              density="1400" friction="1.4 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="hex_sleeve_col_04" type="box" pos="-0.0000 -0.0239 0.0200" euler="0 0 4.7124"
+              size="0.0043 0.0074 0.0180" material="hex_sleeve_collision"
+              density="1400" friction="1.4 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="hex_sleeve_col_05" type="box" pos="0.0207 -0.0120 0.0200" euler="0 0 5.7596"
+              size="0.0043 0.0074 0.0180" material="hex_sleeve_collision"
+              density="1400" friction="1.4 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+
+        <geom name="hex_sleeve_visual" type="mesh" mesh="hex_sleeve_visual"
+              material="hex_sleeve_mat" contype="0" conaffinity="0" group="1"/>
+      </body>
+
+      <site name="bottom_site" pos="0 0 0.002" size="0.003" rgba="0 0 0 0"/>
+      <site name="top_site" pos="0 0 0.038" size="0.003" rgba="0 0 0 0"/>
+      <site name="horizontal_radius_site" pos="0.028 0 0.020" size="0.003" rgba="0 0 0 0"/>
+    </body>
+  </worldbody>
+</mujoco>

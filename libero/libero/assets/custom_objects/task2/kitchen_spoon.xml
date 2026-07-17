@@ -1,0 +1,44 @@
+<mujoco model="kitchen_spoon">
+  <asset>
+    <mesh name="spoon_bowl_concave_mesh" file="spoon_bowl_concave.obj"/>
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <geom name="spoon_handle_collision" type="box"
+              pos="-0.029 0 0.014" size="0.044 0.0115 0.007"
+              rgba="0 0 0 0" density="700"
+              friction="1.2 0.01 0.0001" group="0"/>
+        <geom name="spoon_neck_collision" type="box"
+              pos="0.018 0 0.014" size="0.012 0.013 0.007"
+              rgba="0 0 0 0" density="700"
+              friction="1.2 0.01 0.0001" group="0"/>
+        <geom name="spoon_head_collision" type="ellipsoid"
+              pos="0.047 0 0.016" size="0.030 0.021 0.0105"
+              rgba="0 0 0 0" density="700"
+              friction="1.2 0.01 0.0001" group="0"/>
+
+        <geom name="spoon_handle_visual" type="box"
+              pos="-0.029 0 0.015" size="0.044 0.0100 0.0052"
+              rgba="0.70 0.72 0.74 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="spoon_handle_end_visual" type="ellipsoid"
+              pos="-0.073 0 0.015" size="0.010 0.0110 0.0052"
+              rgba="0.68 0.70 0.72 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="spoon_bolster_visual" type="box"
+              pos="0.016 0 0.0175" size="0.005 0.0120 0.0065"
+              rgba="0.76 0.78 0.80 1"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="spoon_bowl_concave_visual" type="mesh"
+              mesh="spoon_bowl_concave_mesh"
+              rgba="0.80 0.82 0.84 1"
+              contype="0" conaffinity="0" group="1"/>
+      </body>
+      <site name="bottom_site" pos="0 0 0.006" size="0.003" rgba="0 0 0 0"/>
+      <site name="top_site" pos="0 0 0.034" size="0.003" rgba="0 0 0 0"/>
+      <site name="horizontal_radius_site" pos="0.060 0 0.015"
+            size="0.003" rgba="0 0 0 0"/>
+    </body>
+  </worldbody>
+</mujoco>

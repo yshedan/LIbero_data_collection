@@ -1,0 +1,3 @@
+{
+  "0": {"atomic_skill_sequence": ["approach", "grasp", "lift", "transport", "release", "approach", "grasp", "lift", "transport", "release", "approach", "grasp", "lift", "transport", "release"], "task_id": 0, "execution_requirement": "fast", "task_name": "put the medicine bottle and the bandage in the care box, and put the scissors in the instrument box", "source_episode_index": 0}
+}

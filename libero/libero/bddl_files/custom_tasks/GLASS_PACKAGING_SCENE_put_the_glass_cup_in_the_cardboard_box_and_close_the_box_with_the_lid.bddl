@@ -1,0 +1,60 @@
+(define (problem LIBERO_Tabletop_Manipulation)
+  (:domain robosuite)
+  (:language put the glass cup into the cardboard box and close the box with the lid)
+    (:regions
+      (cardboard_box_init_region
+          (:target main_table)
+          (:ranges (
+              (-0.16 0.04 0.16 0.18)
+            )
+          )
+          (:yaw_rotation (
+              (0.0 0.0)
+            )
+          )
+      )
+      (loose_object_init_region
+          (:target main_table)
+          (:ranges (
+              (-0.20 -0.22 0.20 -0.06)
+            )
+          )
+          (:yaw_rotation (
+              (0.0 3.14159)
+            )
+          )
+      )
+      (contain_region
+          (:target cardboard_box_1)
+      )
+    )
+
+  (:fixtures
+    main_table - table
+    cardboard_box_1 - cardboard_box
+  )
+
+  (:objects
+    clear_glass_cup_1 - clear_glass_cup
+    crumpled_paper_1 crumpled_paper_2 - crumpled_paper
+  )
+
+  (:obj_of_interest
+    clear_glass_cup_1
+    crumpled_paper_1
+    cardboard_box_1
+  )
+
+  (:init
+    (On cardboard_box_1 main_table_cardboard_box_init_region)
+    (Open cardboard_box_1)
+    (On clear_glass_cup_1 main_table_loose_object_init_region)
+    (On crumpled_paper_1 main_table_loose_object_init_region)
+    (On crumpled_paper_2 main_table_loose_object_init_region)
+  )
+
+  (:goal
+    (And (In clear_glass_cup_1 cardboard_box_1_contain_region) (Close cardboard_box_1))
+  )
+
+)

@@ -1,0 +1,52 @@
+<mujoco model="assembly_board">
+  <asset>
+    <material name="board_mat" rgba="0.26 0.42 0.58 1"/>
+    <material name="board_top_mat" rgba="0.30 0.50 0.70 1"/>
+    <material name="edge_mat" rgba="0.14 0.24 0.34 1"/>
+    <material name="mark_mat" rgba="0.12 0.12 0.12 1"/>
+  </asset>
+
+  <worldbody>
+    <body>
+      <body name="object">
+        <site name="top_region" type="box" pos="0 0 0.070"
+              quat="1 0 0 0" size="0.115 0.105 0.040" rgba="0 0 0 0"/>
+
+        <geom name="board_collision" type="box" pos="0 0 0.017"
+              size="0.125 0.115 0.017" material="board_mat"
+              density="6000" friction="1.5 0.02 0.001"
+              solimp="0.99 0.99 0.001" solref="0.005 1" group="0"/>
+        <geom name="board_visual" type="box" pos="0 0 0.017"
+              size="0.125 0.115 0.017" material="board_mat"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="board_top_visual" type="box" pos="0 0 0.039"
+              size="0.122 0.112 0.004" material="board_top_mat"
+              contype="0" conaffinity="0" group="1"/>
+
+        <geom name="edge_front_visual" type="box" pos="0 -0.119 0.038"
+              size="0.129 0.004 0.004" material="edge_mat"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="edge_back_visual" type="box" pos="0 0.119 0.038"
+              size="0.129 0.004 0.004" material="edge_mat"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="edge_left_visual" type="box" pos="-0.129 0 0.038"
+              size="0.004 0.119 0.004" material="edge_mat"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="edge_right_visual" type="box" pos="0.129 0 0.038"
+              size="0.004 0.119 0.004" material="edge_mat"
+              contype="0" conaffinity="0" group="1"/>
+
+        <geom name="mark_x_visual" type="box" pos="0.000 0.060 0.045"
+              size="0.018 0.004 0.002" material="mark_mat"
+              contype="0" conaffinity="0" group="1"/>
+        <geom name="mark_y_visual" type="box" pos="0.000 0.060 0.045"
+              size="0.004 0.018 0.002" material="mark_mat"
+              contype="0" conaffinity="0" group="1"/>
+      </body>
+
+      <site name="bottom_site" pos="0 0 -0.002" size="0.003" rgba="0 0 0 0"/>
+      <site name="top_site" pos="0 0 0.116" size="0.003" rgba="0 0 0 0"/>
+      <site name="horizontal_radius_site" pos="0.132 0 0.026" size="0.003" rgba="0 0 0 0"/>
+    </body>
+  </worldbody>
+</mujoco>

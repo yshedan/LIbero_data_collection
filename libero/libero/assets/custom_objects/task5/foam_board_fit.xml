@@ -1,0 +1,25 @@
+<mujoco model="foam_board_fit">
+  <asset>
+    <material name="foam_white" rgba="0.94 0.94 0.90 1" specular="0.05" shininess="0.04" />
+    <material name="foam_edge" rgba="0.86 0.86 0.82 1" specular="0.04" shininess="0.03" />
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <geom name="foam_fit_collision" type="box" pos="0 0 0.007" size="0.038 0.029 0.007" material="foam_white" group="0" friction="1.0 0.3 0.1" />
+        <geom name="foam_fit_edge_right_collision" type="box" pos="0.033 0 0.021" size="0.005 0.029 0.008" material="foam_edge" group="0" friction="1.0 0.3 0.1" />
+        <geom name="foam_fit_edge_left_collision" type="box" pos="-0.033 0 0.021" size="0.005 0.029 0.008" material="foam_edge" group="0" friction="1.0 0.3 0.1" />
+        <geom name="foam_fit_edge_front_collision" type="box" pos="0 -0.024 0.021" size="0.038 0.005 0.008" material="foam_edge" group="0" friction="1.0 0.3 0.1" />
+        <geom name="foam_fit_edge_back_collision" type="box" pos="0 0.024 0.021" size="0.038 0.005 0.008" material="foam_edge" group="0" friction="1.0 0.3 0.1" />
+        <geom name="foam_fit_visual" type="box" pos="0 0 0.008" size="0.037 0.028 0.007" material="foam_white" group="1" contype="0" conaffinity="0" />
+        <geom name="foam_fit_edge_right_visual" type="box" pos="0.033 0 0.022" size="0.0045 0.028 0.008" material="foam_edge" group="1" contype="0" conaffinity="0" />
+        <geom name="foam_fit_edge_left_visual" type="box" pos="-0.033 0 0.022" size="0.0045 0.028 0.008" material="foam_edge" group="1" contype="0" conaffinity="0" />
+        <geom name="foam_fit_edge_front_visual" type="box" pos="0 -0.024 0.022" size="0.037 0.0045 0.008" material="foam_edge" group="1" contype="0" conaffinity="0" />
+        <geom name="foam_fit_edge_back_visual" type="box" pos="0 0.024 0.022" size="0.037 0.0045 0.008" material="foam_edge" group="1" contype="0" conaffinity="0" />
+      </body>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.004" name="bottom_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.032" name="top_site" />
+      <site rgba="0 0 0 0" size="0.038" pos="0.038 0.038 0" name="horizontal_radius_site" />
+    </body>
+  </worldbody>
+</mujoco>
