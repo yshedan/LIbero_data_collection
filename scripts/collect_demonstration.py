@@ -1,5 +1,7 @@
 import argparse
 import os
+import sys
+from pathlib import Path
 import datetime
 import h5py
 import init_path
@@ -13,6 +15,15 @@ os.environ.pop("QT_QPA_PLATFORM_PLUGIN_PATH", None)
 os.environ.pop("PYOPENGL_PLATFORM", None)
 os.environ.pop("LIBGL_ALWAYS_SOFTWARE", None)
 os.environ.setdefault("MUJOCO_GL", "glx")
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+THIRD_PARTY_ROOT = REPO_ROOT / "third_party"
+for dependency_path in (
+    THIRD_PARTY_ROOT / "joycon-robotics",
+    THIRD_PARTY_ROOT / "meta_quest_teleop",
+):
+    if dependency_path.exists():
+        sys.path.insert(0, str(dependency_path))
 
 import cv2
 import robosuite as suite
@@ -61,7 +72,7 @@ class JoyConRobosuiteDevice:
         except ImportError as exc:
             raise ImportError(
                 "Unable to import joyconrobotics. Install it in the libero "
-                "environment with: pip install -e /path/to/joycon-robotics"
+                "environment with: pip install -e third_party/joycon-robotics"
             ) from exc
 
         self.pos_sensitivity = pos_sensitivity
@@ -394,7 +405,7 @@ class MetaQuestRobosuiteDevice:
         except ImportError as exc:
             raise ImportError(
                 "Unable to import meta_quest_teleop. Install it in the libero "
-                "environment with: pip install -e /path/to/meta_quest_teleop"
+                "environment with: pip install -e third_party/meta_quest_teleop"
             ) from exc
 
         self.controller = controller
@@ -468,11 +479,9 @@ class MetaQuestRobosuiteDevice:
         self._printed_waiting = False
         pos = np.asarray(transform[:3, 3], dtype=np.float32)
         rot = np.asarray(transform[:3, :3], dtype=np.float32)
-        # The Meta Quest ROS frame maps horizontal translation differently
-        # from robosuite's table frame in this setup. Swap the two table-plane
-        # axes so controller forward/back drives robot forward/back, and
-        # controller left/right drives robot left/right. Flip the two
-        # table-plane directions to match the collection viewer's intuition.
+        # Meta Quest ROS pose uses x=forward, y=left, z=up. In this LIBERO
+        # collection setup, robosuite's horizontal action axes are ordered as
+        # left/right then forward/back, so swap the table-plane axes here.
         pos = pos[[1, 0, 2]] * np.array([-1.0, -1.0, 1.0], dtype=np.float32)
         return pos, rot
 
@@ -589,6 +598,34 @@ def format_task_directory(task_index):
         character if character.isalnum() or character in ("_", "-") else "_"
         for character in task_name
     )
+
+
+def infer_task_directory_from_bddl(bddl_file):
+    """Infer a stable task folder from the first two words of a BDDL filename."""
+    if not bddl_file:
+        return None
+    stem = os.path.splitext(os.path.basename(bddl_file))[0]
+    words = [word.lower() for word in stem.split("_") if word]
+    if len(words) < 2:
+        return None
+    return "_".join(words[:2])
+
+
+def resolve_output_root(directory, task_index, bddl_file):
+    """Resolve the root directory for this collection run."""
+    output_root = directory
+    task_directory = format_task_directory(task_index)
+    if task_directory:
+        return os.path.join(output_root, task_directory)
+
+    # When collecting custom tasks into the common datasets0 folder, split
+    # runs into BDDL-derived task folders such as medical_care or drawer_ring.
+    if os.path.basename(os.path.normpath(output_root)) == "datasets0":
+        inferred_task_directory = infer_task_directory_from_bddl(bddl_file)
+        if inferred_task_directory:
+            return os.path.join(output_root, inferred_task_directory)
+
+    return output_root
 
 
 def smooth_action_labels(actions, window_size=5, motion_dims=6):
@@ -1929,10 +1966,8 @@ if __name__ == "__main__":
 
     # make a new timestamped directory
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_root = args.directory
-    task_directory = format_task_directory(args.task_index)
-    if task_directory:
-        output_root = os.path.join(output_root, task_directory)
+    output_root = resolve_output_root(args.directory, args.task_index, args.bddl_file)
+    print(f"Saving demonstrations under: {output_root}")
     new_dir = os.path.join(
         output_root,
         f"{domain_name}_ln_{problem_name}_{timestamp}_"

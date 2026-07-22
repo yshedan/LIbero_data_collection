@@ -1,0 +1,49 @@
+<mujoco model="ceramic_gift_box">
+  <compiler angle="radian" />
+  <asset>
+    <material name="gift_box_outer" rgba="0.86 0.76 0.58 1" specular="0.02" shininess="0.02" />
+    <material name="gift_box_inner" rgba="0.91 0.82 0.64 1" specular="0.015" shininess="0.015" />
+    <material name="gift_box_edge" rgba="0.58 0.43 0.25 1" specular="0.01" shininess="0.01" />
+    <material name="gift_box_ribbon" rgba="0.95 0.36 0.62 1" specular="0.03" shininess="0.04" />
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <site name="contain_region" type="box" pos="0 0 0.090" quat="1 0 0 0" size="0.094 0.080 0.076" rgba="0 0 0 0" />
+
+        <geom name="box_bottom_collision" type="box" pos="0 0 0.020" size="0.102 0.088 0.020" material="gift_box_inner" group="0" friction="0.95 0.3 0.1" />
+        <geom name="box_front_collision" type="box" pos="0 -0.088 0.078" size="0.102 0.0040 0.069" material="gift_box_outer" group="0" friction="1.05 0.35 0.1" solref="0.010 1" solimp="0.90 0.98 0.001" />
+        <geom name="box_back_collision" type="box" pos="0 0.088 0.078" size="0.102 0.0040 0.069" material="gift_box_outer" group="0" friction="1.05 0.35 0.1" solref="0.010 1" solimp="0.90 0.98 0.001" />
+        <geom name="box_left_collision" type="box" pos="-0.102 0 0.078" size="0.0040 0.088 0.069" material="gift_box_outer" group="0" friction="1.05 0.35 0.1" solref="0.010 1" solimp="0.90 0.98 0.001" />
+        <geom name="box_right_collision" type="box" pos="0.102 0 0.078" size="0.0040 0.088 0.069" material="gift_box_outer" group="0" friction="1.05 0.35 0.1" solref="0.010 1" solimp="0.90 0.98 0.001" />
+
+        <geom name="box_bottom_visual" type="box" pos="0 0 0.020" size="0.101 0.087 0.020" material="gift_box_inner" group="1" contype="0" conaffinity="0" />
+        <geom name="box_inner_floor_visual" type="box" pos="0 0 0.044" size="0.094 0.080 0.005" material="gift_box_inner" group="1" contype="0" conaffinity="0" />
+        <geom name="box_front_visual" type="box" pos="0 -0.086 0.079" size="0.101 0.0012 0.068" material="gift_box_outer" group="1" contype="0" conaffinity="0" />
+        <geom name="box_back_visual" type="box" pos="0 0.086 0.079" size="0.101 0.0012 0.068" material="gift_box_outer" group="1" contype="0" conaffinity="0" />
+        <geom name="box_left_visual" type="box" pos="-0.100 0 0.079" size="0.0012 0.087 0.068" material="gift_box_outer" group="1" contype="0" conaffinity="0" />
+        <geom name="box_right_visual" type="box" pos="0.100 0 0.079" size="0.0012 0.087 0.068" material="gift_box_outer" group="1" contype="0" conaffinity="0" />
+
+        <geom name="front_ribbon_visual" type="box" pos="0 -0.0874 0.081" size="0.014 0.0008 0.059" material="gift_box_ribbon" group="1" contype="0" conaffinity="0" />
+        <geom name="left_ribbon_visual" type="box" pos="-0.1014 0 0.081" size="0.0008 0.014 0.059" material="gift_box_ribbon" group="1" contype="0" conaffinity="0" />
+        <geom name="right_ribbon_visual" type="box" pos="0.1014 0 0.081" size="0.0008 0.014 0.059" material="gift_box_ribbon" group="1" contype="0" conaffinity="0" />
+
+        <geom name="front_top_edge_visual" type="box" pos="0 -0.088 0.147" size="0.103 0.0012 0.0012" material="gift_box_edge" group="1" contype="0" conaffinity="0" />
+        <geom name="left_top_edge_visual" type="box" pos="-0.102 0 0.147" size="0.0012 0.088 0.0012" material="gift_box_edge" group="1" contype="0" conaffinity="0" />
+        <geom name="right_top_edge_visual" type="box" pos="0.102 0 0.147" size="0.0012 0.088 0.0012" material="gift_box_edge" group="1" contype="0" conaffinity="0" />
+
+        <body name="lid_hinge_body" pos="0 0.088 0.148">
+          <joint name="lid_hinge" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="-2.75 0.02" damping="3.5" armature="0.003" frictionloss="0.018" />
+          <geom name="attached_lid_collision" type="box" pos="0 -0.086 0.004" size="0.103 0.084 0.0015" material="gift_box_outer" group="0" friction="1.0 0.3 0.1" mass="0.014" />
+          <geom name="attached_lid_visual" type="box" pos="0 -0.086 0.005" size="0.105 0.086 0.0018" material="gift_box_outer" group="1" contype="0" conaffinity="0" />
+          <geom name="lid_ribbon_vertical_visual" type="box" pos="0 -0.086 0.0075" size="0.014 0.084 0.0008" material="gift_box_ribbon" group="1" contype="0" conaffinity="0" />
+          <geom name="lid_ribbon_horizontal_visual" type="box" pos="0 -0.086 0.0088" size="0.103 0.014 0.0008" material="gift_box_ribbon" group="1" contype="0" conaffinity="0" />
+          <geom name="lid_fold_line" type="box" pos="0 -0.006 0.009" size="0.104 0.0012 0.0012" material="gift_box_edge" group="1" contype="0" conaffinity="0" />
+        </body>
+      </body>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.004" name="bottom_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.158" name="top_site" />
+      <site rgba="0 0 0 0" size="0.116" pos="0.116 0.116 0" name="horizontal_radius_site" />
+    </body>
+  </worldbody>
+</mujoco>

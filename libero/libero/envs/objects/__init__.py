@@ -11,6 +11,8 @@ from .custom_kitchen_objects import *
 from .custom_assembly_objects import *
 from .custom_hot_coffee_objects import *
 from .custom_packaging_objects import *
+from .custom_office_objects import *
+from .custom_liquid_storage_objects import *
 from .site_object import SiteObject
 from .target_zones import *
 

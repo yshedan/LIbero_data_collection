@@ -1,0 +1,359 @@
+# LIBERO 数据采集教程
+
+默认代码目录：
+
+```bash
+/home/ysd/NewDisk/ysd/code/LIBERO
+```
+
+第三方设备代码目录：
+
+```text
+third_party/meta_quest_teleop
+third_party/joycon-robotics
+```
+
+使用顺序：
+
+```text
+1. 先完成公共环境
+2. 用 Meta Quest 就看第 2 节
+3. 用 Joy-Con 就看第 3 节
+4. 设备测试通过后再运行采集命令
+```
+
+采集程序需要显示仿真窗口，建议在本机图形桌面终端运行，不要在纯 SSH 无显示环境里运行。
+
+## 1. 公共环境
+
+先安装系统依赖：
+
+```bash
+sudo apt update
+sudo apt install -y git git-lfs build-essential cmake wget curl \
+  libgl1-mesa-glx libglfw3 libglfw3-dev libglew-dev patchelf \
+  android-tools-adb bluetooth bluez dkms libevdev-dev libudev-dev
+```
+
+创建并安装 `libero` 环境：
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+
+conda create -n libero python=3.8.13 -y
+conda activate libero
+
+pip install -r requirements.txt
+pip install -e .
+```
+
+检查基础环境：
+
+```bash
+python - <<'PY'
+import cv2
+import h5py
+import robosuite
+import libero
+print("libero collection environment ok")
+PY
+```
+
+只采集数据时，一般可以先不单独安装 PyTorch。后续训练、策略推理，或者报错缺少 `torch` 时再安装：
+
+```bash
+pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 \
+  --extra-index-url https://download.pytorch.org/whl/cu113
+```
+
+## 2. Meta Quest 采集
+
+只用 Meta Quest 的话，只看这一节。
+
+### 2.1 安装依赖
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+conda activate libero
+pip install -e third_party/meta_quest_teleop
+```
+
+检查 Python 包：
+
+```bash
+python - <<'PY'
+from meta_quest_teleop.reader import MetaQuestReader
+print("meta quest python package ok")
+PY
+```
+
+### 2.2 连接设备
+
+Quest 中开启开发者模式和 USB 调试，然后用 USB 连接电脑。
+
+```bash
+adb devices
+```
+
+正常结果类似：
+
+```text
+230YC01D8T00EB    device
+```
+
+如果是 `unauthorized`，戴上头显确认 USB 调试授权。  
+如果是 `no permissions`，执行：
+
+```bash
+echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="2833", MODE="0666", GROUP="plugdev", TAG+="uaccess"' | \
+  sudo tee /etc/udev/rules.d/51-oculus.rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+sudo usermod -aG plugdev $USER
+```
+
+然后拔插 USB，重新登录终端，再执行 `adb devices`。
+
+### 2.3 安装 APK
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+adb install -r third_party/meta_quest_teleop/meta_quest_teleop/APK/teleop-pointer-frame-relative.apk
+```
+
+### 2.4 测试设备数据
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+conda activate libero
+python scripts/debug_metaquest_reader.py --seconds 30
+```
+
+移动右手柄，如果终端里有位姿或按钮数据变化，就可以开始采集。  
+如果没有数据，先不要运行采集代码，优先检查 APK 是否打开、USB 授权是否正常、右手柄是否在线。
+
+### 2.5 运行采集
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+conda activate libero
+
+python scripts/collect_demonstration.py \
+  --device metaquest \
+  --metaquest-controller right \
+  --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0 \
+  --camera agentview \
+  --num-demonstration 30 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/MEDICAL_CARE_TWO_BOX_SCENE_put_the_medicine_bottle_and_the_bandage_in_the_care_box,_and_put_the_scissors_in_the_instrument_box.bddl"
+```
+
+常用灵敏度：
+
+```bash
+--metaquest-pos-scale 0.6
+--metaquest-rot-scale 0.02
+```
+
+操作方式：
+
+```text
+Grip            启用平移
+移动手柄         控制机械臂平移
+摇杆左右         yaw 旋转
+摇杆上下         pitch 旋转
+A + 摇杆左右     roll 旋转
+Trigger         夹爪
+B/Y/右摇杆按下   放弃当前轨迹并重置
+```
+
+关闭 Quest 端应用：
+
+```bash
+adb shell am force-stop com.rail.oculus.teleop
+```
+
+## 3. Joy-Con 采集
+
+只用 Joy-Con 的话，只看这一节。
+
+### 3.1 安装依赖
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+conda activate libero
+pip install -e third_party/joycon-robotics
+
+cd third_party/joycon-robotics
+make install
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+```
+
+检查 Python 包：
+
+```bash
+python - <<'PY'
+from joyconrobotics import JoyconRobotics
+print("joycon python package ok")
+PY
+```
+
+如果 `make install` 权限不够：
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO/third_party/joycon-robotics
+sudo make install
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+```
+
+### 3.2 连接设备
+
+```bash
+bluetoothctl
+```
+
+进入后输入：
+
+```text
+power on
+agent on
+default-agent
+scan on
+```
+
+长按 Joy-Con 侧面的配对按钮，看到设备后输入：
+
+```text
+pair 设备MAC地址
+trust 设备MAC地址
+connect 设备MAC地址
+quit
+```
+
+连接成功后再运行采集代码。右手柄用 `--joycon-side right`，左手柄用 `--joycon-side left`。
+
+### 3.3 运行采集
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+conda activate libero
+
+python scripts/collect_demonstration_joycon.py \
+  --joycon-side right \
+  --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0 \
+  --camera agentview \
+  --num-demonstration 30 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/DRAWER_RING_ASSEMBLY_SCENE_insert_the_round_sleeve_onto_the_round_post_and_the_hex_sleeve_onto_the_hex_post_on_the_assembly_board.bddl"
+```
+
+常用灵敏度：
+
+```bash
+--joycon-pos-scale 0.2
+--joycon-rot-scale 0.2
+```
+
+操作方式：
+
+```text
+摇杆上下       前后移动
+摇杆左右       左右移动
+R/L            向上移动
+摇杆按下        向下移动
+ZR/ZL          夹爪
+Home/Capture   重置手柄虚拟位姿
+Y              放弃当前轨迹并重置
+```
+
+## 4. 数据保存
+
+采集代码现在是“一条成功轨迹保存一个 hdf5 文件”，程序不需要退出，会继续采下一条。
+
+保存路径示例：
+
+```text
+data/datasets0/
+  medical_care/
+    时间戳目录/
+      demo_000000/demo.hdf5
+      demo_000001/demo.hdf5
+```
+
+如果 `--directory` 写的是 `data/datasets0`，代码会根据 BDDL 文件名前两个单词自动建任务文件夹。
+
+查看某个 `demo.hdf5` 中有几条轨迹：
+
+```bash
+python - <<'PY'
+import h5py
+
+path = "/home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/medical_care/时间戳目录/demo_000000/demo.hdf5"
+
+with h5py.File(path, "r") as f:
+    demos = [key for key in f["data"].keys() if key.startswith("demo_")]
+    print("轨迹数量:", len(demos))
+    print("轨迹列表:", demos)
+PY
+```
+
+## 5. 数据转换
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+conda activate libero
+
+python scripts/convert_libero_hdf5_to_demand_raw.py \
+  --input-dir /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0 \
+  --output-dir /home/ysd/NewDisk/ysd/code/LIBERO/data/libero_demand_raw_keyboard0
+```
+
+## 6. 生成 init_files
+
+`--num-states 10` 表示每个任务生成 10 个初始状态。
+
+```bash
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+conda activate libero
+
+NUMBA_CACHE_DIR=/tmp/numba_cache MPLCONFIGDIR=/tmp/mpl_cache \
+python scripts/data/generate_custom_init_states.py \
+  --bddl-dir libero/libero/bddl_files/custom_tasks \
+  --output-dir libero/libero/init_files/custom_tasks \
+  --num-states 10 \
+  --seed 0 \
+  --resolution 256
+```
+
+## 7. 常用任务文件
+
+```text
+libero/libero/bddl_files/custom_tasks/MEDICAL_CARE_TWO_BOX_SCENE_put_the_medicine_bottle_and_the_bandage_in_the_care_box,_and_put_the_scissors_in_the_instrument_box.bddl
+libero/libero/bddl_files/custom_tasks/KITCHEN_PREP_COUNTER_SCENE_put_the_bowl_and_the_spoon_in_the_divided_cabinet,_and_put_the_knife_in_the_knife_rack.bddl
+libero/libero/bddl_files/custom_tasks/GLASS_PACKAGING_SCENE_put_the_glass_cup_in_the_cardboard_box_and_close_the_box_with_the_lid.bddl
+libero/libero/bddl_files/custom_tasks/CERAMIC_CUP_PACKAGING_SCENE_put_the_ceramic_cup_in_the_cardboard_box_and_close_the_box.bddl
+libero/libero/bddl_files/custom_tasks/DRAWER_RING_ASSEMBLY_SCENE_insert_the_round_sleeve_onto_the_round_post_and_the_hex_sleeve_onto_the_hex_post_on_the_assembly_board.bddl
+libero/libero/bddl_files/custom_tasks/SNACK_STORAGE_SCENE_put_the_cookies_and_the_cream_cheese_in_the_snack_basket_after_moving_blocking_snacks.bddl
+libero/libero/bddl_files/custom_tasks/OFFICE_CADDY_SCENE_put_the_tape_roll_and_the_eraser_in_the_desk_caddy_after_moving_blocking_items.bddl
+libero/libero/bddl_files/custom_tasks/HOT_PAN_STOVE_SCENE_move_the_hot_frying_pan_from_the_stove_to_the_trivet_and_turn_off_the_power.bddl
+libero/libero/bddl_files/custom_tasks/HOT_COFFEE_PAD_SCENE_move_the_hot_coffee_mug_from_the_heating_pad_to_the_coaster_and_turn_off_the_power.bddl
+libero/libero/bddl_files/custom_tasks/LIQUID_BOTTLE_STORAGE_SCENE_put_the_liquid_bottle_and_cap_on_the_storage_rack.bddl
+```
+
+## 8. 常见问题
+
+Meta Quest 导入失败：
+
+```bash
+pip install -e third_party/meta_quest_teleop
+```
+
+Joy-Con 导入失败：
+
+```bash
+pip install -e third_party/joycon-robotics
+```
+
+采集窗口没有显示：
+
+确认本机有图形桌面，不要在纯 SSH 无显示环境中运行。

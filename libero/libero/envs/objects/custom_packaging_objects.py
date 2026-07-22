@@ -62,6 +62,37 @@ class CardboardBox(PackagingObject):
 
 
 @register_object
+class CeramicGiftBox(PackagingObject):
+    def __init__(self, name="ceramic_gift_box", joints="free"):
+        if joints == "free":
+            joints = [dict(type="free", damping="5")]
+        super().__init__(name, "ceramic_gift_box", joints=joints)
+        self.object_properties["articulation"] = {
+            "default_open_ranges": [-2.70, -2.35],
+            "default_close_ranges": [-0.025, 0.02],
+        }
+
+    @staticmethod
+    def _scalar_qpos(qpos):
+        qpos = np.asarray(qpos)
+        if qpos.size != 1:
+            return None
+        return float(qpos)
+
+    def is_open(self, qpos):
+        qpos = self._scalar_qpos(qpos)
+        if qpos is None:
+            return False
+        return qpos < max(self.object_properties["articulation"]["default_open_ranges"])
+
+    def is_close(self, qpos):
+        qpos = self._scalar_qpos(qpos)
+        if qpos is None:
+            return True
+        return qpos > min(self.object_properties["articulation"]["default_close_ranges"])
+
+
+@register_object
 class CardboardLid(PackagingObject):
     def __init__(self, name="cardboard_lid", joints="free"):
         super().__init__(name, "cardboard_lid", joints=joints)

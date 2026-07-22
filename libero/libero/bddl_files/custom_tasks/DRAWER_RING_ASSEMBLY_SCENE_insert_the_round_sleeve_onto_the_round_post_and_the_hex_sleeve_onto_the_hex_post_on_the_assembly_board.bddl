@@ -1,12 +1,12 @@
 (define (problem LIBERO_Tabletop_Manipulation)
   (:domain robosuite)
-  (:language put the round sleeve from the assembly board into the top drawer and close the drawer)
+  (:language take the round sleeve from the top drawer, put it on the assembly board, and close the drawer)
     (:regions
       (wooden_cabinet_init_region
           (:target main_table)
           (:ranges (
-              (0.08 -0.31 0.15 -0.23)
-              (0.09 -0.23 0.16 -0.16)
+              (0.05 -0.24 0.12 -0.17)
+              (0.06 -0.17 0.13 -0.11)
             )
           )
           (:yaw_rotation (
@@ -17,8 +17,8 @@
       (assembly_board_init_region
           (:target main_table)
           (:ranges (
-              (-0.1 0.17 -0.03 0.25)
-              (-0.09 0.25 -0.02 0.31)
+              (-0.08 0.09 -0.01 0.16)
+              (-0.07 0.16 0.0 0.22)
             )
           )
           (:yaw_rotation (
@@ -50,6 +50,12 @@
       (top_region
           (:target assembly_board_1)
       )
+      (hex_region
+          (:target assembly_board_1)
+      )
+      (round_region
+          (:target assembly_board_1)
+      )
     )
 
   (:fixtures
@@ -60,22 +66,28 @@
 
   (:objects
     ring_pin_1 - ring_pin
+    hex_ring_pin_1 - hex_ring_pin
   )
 
   (:obj_of_interest
     wooden_cabinet_1
     ring_pin_1
+    hex_ring_pin_1
     assembly_board_1
   )
 
   (:init
     (On wooden_cabinet_1 main_table_wooden_cabinet_init_region)
     (On assembly_board_1 main_table_assembly_board_init_region)
-    (On ring_pin_1 assembly_board_1_top_region)
+    (In ring_pin_1 wooden_cabinet_1_top_storage_region)
+    (In hex_ring_pin_1 assembly_board_1_hex_region)
   )
 
   (:goal
-    (And (In ring_pin_1 wooden_cabinet_1_top_region) (Close wooden_cabinet_1_top_region))
+    (And
+      (In ring_pin_1 assembly_board_1_round_region)
+      (Close wooden_cabinet_1_top_region)
+    )
   )
 
 )

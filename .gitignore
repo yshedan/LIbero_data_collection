@@ -25,9 +25,7 @@ logs/
 *.avi
 *.mov
 *.hdf5
-!data/datasets0/**/*.hdf5
 *.h5
-!data/datasets0/**/*.h5
 *.npz
 *.npy
 *.arrow

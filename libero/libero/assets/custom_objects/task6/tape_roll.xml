@@ -1,0 +1,20 @@
+<mujoco model="tape_roll">
+  <asset>
+    <material name="tape_blue" rgba="0.12 0.35 0.90 1" specular="0.2" shininess="0.3" />
+    <material name="tape_paper" rgba="0.92 0.90 0.82 1" specular="0.1" shininess="0.1" />
+    <material name="collision_invisible" rgba="0.8 0.8 0.8 0" />
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <geom name="tape_collision" type="box" pos="0 0 0.010" size="0.030 0.030 0.010" material="collision_invisible" group="0" friction="1.5 0.6 0.1" solref="0.015 1" solimp="0.90 0.95 0.002" />
+        <geom name="tape_outer_visual" type="cylinder" pos="0 0 0.010" size="0.030 0.010" material="tape_blue" group="1" contype="0" conaffinity="0" density="1" />
+        <geom name="tape_inner_visual" type="cylinder" pos="0 0 0.0208" size="0.016 0.0008" material="tape_paper" group="1" contype="0" conaffinity="0" density="1" />
+        <geom name="tape_hole_visual" type="cylinder" pos="0 0 0.0222" size="0.008 0.0007" rgba="0.03 0.03 0.03 1" group="1" contype="0" conaffinity="0" density="1" />
+      </body>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.000" name="bottom_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.023" name="top_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0.030 0.030 0.010" name="horizontal_radius_site" />
+    </body>
+  </worldbody>
+</mujoco>

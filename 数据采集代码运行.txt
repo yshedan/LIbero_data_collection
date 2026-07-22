@@ -285,7 +285,35 @@ python scripts/collect_demonstration.py \
 ```
 
 
-### 8.6 查看某个 demo.hdf5 中有几条轨迹
+### 8.6 snack_storage
+
+```bash
+python scripts/collect_demonstration.py \
+  --device metaquest \
+  --metaquest-controller right \
+  --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/snack_storage \
+  --camera agentview \
+  --num-demonstration 30 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/SNACK_STORAGE_SCENE_put_the_cookies_and_the_cream_cheese_in_the_snack_basket_after_moving_blocking_snacks.bddl"
+```
+
+
+### 8.7 office_caddy
+
+```bash
+python scripts/collect_demonstration.py \
+  --device metaquest \
+  --metaquest-controller right \
+  --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/office_caddy \
+  --camera agentview \
+  --num-demonstration 30 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/OFFICE_CADDY_SCENE_put_the_tape_roll_and_the_eraser_in_the_desk_caddy_after_moving_blocking_items.bddl"
+```
+
+
+### 8.8 查看某个 demo.hdf5 中有几条轨迹
 
 先查找某个任务目录下生成的 `demo.hdf5` 文件：
 
@@ -313,3 +341,40 @@ PY
 ```text
 轨迹数量: 1
 ```
+
+### 8.9 使用 JoyCon 手柄采集
+
+先确认 JoyCon 已经蓝牙连接，并且 `joycon-robotics` 在这个路径：
+
+```bash
+/home/ysd/NewDisk/ysd/code/LIBERO/third_party/joycon-robotics
+```
+
+采集时使用新的 JoyCon 专用入口。`--directory` 可以直接写总目录，代码会根据 BDDL 文件名前两个单词自动保存到不同任务文件夹：
+
+```bash
+python scripts/collect_demonstration_joycon.py \
+  --joycon-side right \
+  --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0 \
+  --camera agentview \
+  --num-demonstration 30 \
+  --success-hold-seconds 5 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/DRAWER_RING_ASSEMBLY_SCENE_insert_the_round_sleeve_onto_the_round_post_and_the_hex_sleeve_onto_the_hex_post_on_the_assembly_board.bddl"
+```
+
+如果 JoyCon 移动太快或太慢，可以调这两个参数：
+
+```bash
+  --joycon-pos-scale 0.2 \
+  --joycon-rot-scale 0.2
+```
+
+
+
+以后每次改完代码，在仓库目录运行这三步：
+cd /home/ysd/NewDisk/ysd/code/LIBERO
+
+git status
+git add .
+git commit -m "你的更新说明"
+git push

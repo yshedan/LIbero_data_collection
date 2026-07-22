@@ -1,0 +1,77 @@
+(define (problem LIBERO_Tabletop_Manipulation)
+  (:domain robosuite)
+  (:language put the ceramic mug into the gift box and close the box)
+  (:regions
+    (ceramic_gift_box_init_region
+      (:target main_table)
+      (:ranges (
+        (-0.08 0.09 0.08 0.19)
+      ))
+      (:yaw_rotation (
+        (0.0 0.0)
+      ))
+    )
+    (ceramic_cup_init_region
+      (:target main_table)
+      (:ranges (
+        (-0.16 -0.18 -0.05 -0.08)
+        (0.05 -0.18 0.16 -0.08)
+      ))
+      (:yaw_rotation (
+        (0.0 3.14159)
+      ))
+    )
+    (left_cushion_paper_init_region
+      (:target main_table)
+      (:ranges (
+        (-0.22 -0.08 -0.10 0.02)
+      ))
+      (:yaw_rotation (
+        (0.0 3.14159)
+      ))
+    )
+    (right_cushion_paper_init_region
+      (:target main_table)
+      (:ranges (
+        (0.10 -0.08 0.22 0.02)
+      ))
+      (:yaw_rotation (
+        (0.0 3.14159)
+      ))
+    )
+    (contain_region
+      (:target ceramic_gift_box_1)
+    )
+  )
+
+  (:fixtures
+    main_table - table
+    ceramic_gift_box_1 - ceramic_gift_box
+  )
+
+  (:objects
+    porcelain_mug_1 - porcelain_mug
+    crumpled_paper_1 crumpled_paper_2 - crumpled_paper
+  )
+
+  (:obj_of_interest
+    porcelain_mug_1
+    crumpled_paper_1
+    ceramic_gift_box_1
+  )
+
+  (:init
+    (On ceramic_gift_box_1 main_table_ceramic_gift_box_init_region)
+    (Open ceramic_gift_box_1)
+    (On porcelain_mug_1 main_table_ceramic_cup_init_region)
+    (On crumpled_paper_1 main_table_left_cushion_paper_init_region)
+    (On crumpled_paper_2 main_table_right_cushion_paper_init_region)
+  )
+
+  (:goal
+    (And
+      (In porcelain_mug_1 ceramic_gift_box_1_contain_region)
+      (Close ceramic_gift_box_1)
+    )
+  )
+)

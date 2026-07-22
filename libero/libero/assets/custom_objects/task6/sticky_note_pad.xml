@@ -1,0 +1,19 @@
+<mujoco model="sticky_note_pad">
+  <asset>
+    <material name="sticky_yellow" rgba="0.98 0.86 0.22 1" specular="0.02" shininess="0.02" />
+    <material name="sticky_edge" rgba="0.78 0.63 0.12 1" specular="0.02" shininess="0.02" />
+    <material name="collision_invisible" rgba="0.8 0.8 0.8 0" />
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <geom name="sticky_collision" type="box" pos="0 0 0.011" size="0.032 0.028 0.011" material="collision_invisible" group="0" friction="1.4 0.5 0.1" />
+        <geom name="sticky_body_visual" type="box" pos="0 0 0.011" size="0.032 0.028 0.011" material="sticky_yellow" group="1" contype="0" conaffinity="0" />
+        <geom name="sticky_edge_visual" type="box" pos="-0.030 0 0.013" size="0.003 0.029 0.012" material="sticky_edge" group="1" contype="0" conaffinity="0" />
+      </body>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.000" name="bottom_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.022" name="top_site" />
+      <site rgba="0 0 0 0" size="0.005" pos="0.032 0.028 0.011" name="horizontal_radius_site" />
+    </body>
+  </worldbody>
+</mujoco>

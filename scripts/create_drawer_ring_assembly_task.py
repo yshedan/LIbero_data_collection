@@ -34,16 +34,16 @@ class DrawerRingAssemblyScene(InitialSceneTemplates):
         self.regions["wooden_cabinet_init_region"] = {
             "target": self.workspace_name,
             "ranges": [
-                (0.08, -0.31, 0.15, -0.23),
-                (0.09, -0.23, 0.16, -0.16),
+                (0.05, -0.24, 0.12, -0.17),
+                (0.06, -0.17, 0.13, -0.11),
             ],
             "yaw_rotation": [(3.14159, 3.14159)],
         }
         self.regions["assembly_board_init_region"] = {
             "target": self.workspace_name,
             "ranges": [
-                (-0.10, 0.17, -0.03, 0.25),
-                (-0.09, 0.25, -0.02, 0.31),
+                (-0.08, 0.09, -0.01, 0.16),
+                (-0.07, 0.16, 0.00, 0.22),
             ],
             "yaw_rotation": [(0.0, 0.0)],
         }

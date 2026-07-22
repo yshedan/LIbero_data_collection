@@ -5,8 +5,8 @@
       (heating_pad_init_region
           (:target main_table)
           (:ranges (
-              (0.03 0.04 0.12 0.12)
-              (0.03 -0.08 0.12 -0.01)
+              (0.02 0.02 0.1 0.09)
+              (0.02 -0.07 0.1 0.0)
             )
           )
           (:yaw_rotation (
@@ -17,8 +17,8 @@
       (coaster_init_region
           (:target main_table)
           (:ranges (
-              (-0.16 0.04 -0.04 0.12)
-              (-0.16 -0.08 -0.04 -0.01)
+              (-0.13 0.02 -0.03 0.09)
+              (-0.13 -0.07 -0.03 0.0)
             )
           )
           (:yaw_rotation (
