@@ -198,6 +198,18 @@ class PorcelainMug(TurbosquidObjects):
 
 
 @register_object
+class SmallPorcelainMug(TurbosquidObjects):
+    def __init__(
+        self,
+        name="small_porcelain_mug",
+        obj_name="small_porcelain_mug",
+        joints=[dict(type="free", damping="0.0005")],
+    ):
+        super().__init__(name, obj_name, joints)
+        self.rotation = (-np.pi / 2, -np.pi / 2)
+
+
+@register_object
 class WhiteYellowMug(TurbosquidObjects):
     def __init__(
         self,

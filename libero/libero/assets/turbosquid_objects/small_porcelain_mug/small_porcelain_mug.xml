@@ -1,0 +1,39 @@
+<mujoco model="small_porcelain_mug">
+  <asset>
+    <texture file="../porcelain_mug/porcelain_mug_texture.png" name="tex-porcelain_mug" type="2d" />
+    <material name="porcelain_mug" reflectance="0.5" texrepeat="1 1" texture="tex-porcelain_mug" texuniform="false" />
+    <mesh file="../porcelain_mug/visual/porcelain_mug_vis.msh" name="porcelain_mug_vis" scale="0.85000 0.85000 0.85000" />
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="mesh" mesh="porcelain_mug_vis" conaffinity="0" contype="0" group="1" material="porcelain_mug" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="-0.05060 -0.00000 0.04762" quat="0.00000 0.00000 1.00000 0.00000" size="0.00320 0.00677 0.01679" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="-0.03534 0.00000 0.02433" quat="0.50997 -0.00000 0.86019 -0.00000" size="0.00320 0.00677 0.01679" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="-0.03936 -0.00000 0.07091" quat="0.46390 0.00000 -0.88589 0.00000" size="0.00320 0.00677 0.01679" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.04826 -0.00125 0.06447" quat="0.00000 0.00000 1.00000 0.00000" size="0.00207 0.01839 0.02772" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.01255 -0.00139 0.00646" quat="0.50000 -0.50000 0.50000 0.50000" size="0.00443 0.01581 0.01581" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.04195 -0.00343 0.02031" quat="0.69215 0.69215 0.14468 -0.14468" size="0.00120 0.01606 0.01839" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.03325 0.02077 0.02031" quat="0.68797 0.56492 0.42528 0.16339" size="0.00112 0.01586 0.01623" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.03473 0.02650 0.06447" quat="0.00000 -0.42525 0.90508 0.00000" size="0.00207 0.01839 0.02772" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.00746 0.03288 0.06447" quat="0.00000 -0.76965 0.63846 0.00000" size="0.00207 0.01839 0.02772" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.00909 0.02437 0.02031" quat="0.55326 0.33057 0.62508 0.44034" size="0.00120 0.01606 0.01839" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="-0.00968 0.01081 0.02031" quat="0.01588 -0.29770 -0.64138 0.70693" size="0.00120 0.01606 0.01839" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="-0.01863 0.01519 0.06447" quat="0.00000 -0.97400 0.22653 0.00000" size="0.00207 0.01839 0.02772" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="-0.01944 -0.01533 0.06447" quat="0.00000 -0.23315 0.97244 0.00000" size="0.00207 0.01839 0.02772" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="-0.01487 -0.01169 0.02031" quat="0.02182 -0.26310 0.65634 0.70677" size="0.00119 0.01603 0.01693" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.00702 -0.02973 0.02031" quat="0.52881 -0.29653 0.64193 -0.46942" size="0.00120 0.01605 0.01759" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.00549 -0.03395 0.06447" quat="-0.00000 -0.76567 -0.64323 -0.00000" size="0.00207 0.01839 0.02772" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.03546 -0.02760 0.06447" quat="0.00000 0.41049 0.91187 0.00000" size="0.00207 0.01839 0.02772" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.03222 -0.02194 0.02031" quat="0.69053 -0.57176 0.41604 -0.15219" size="0.00120 0.01606 0.01839" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.01300 -0.02032 0.00646" quat="0.50000 0.50000 -0.50000 -0.50000" size="0.00277 0.00443 0.01321" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.03187 -0.00014 0.00646" quat="0.70711 0.70711 0.00000 -0.00000" size="0.00306 0.00443 0.01397" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="-0.00445 -0.00358 0.00646" quat="0.70711 0.70711 0.00000 -0.00000" size="0.00306 0.00443 0.01397" group="0" rgba="0.8 0.8 0.8 0.3" />
+        <geom solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" type="box" pos="0.01300 0.01604 0.00646" quat="0.50000 0.50000 -0.50000 -0.50000" size="0.00277 0.00443 0.01321" group="0" rgba="0.8 0.8 0.8 0.3" />
+      </body>
+      <site rgba="0 0 0 0" size="0.00425" pos="0.00000 0.00000 -0.05100" name="bottom_site" />
+      <site rgba="0 0 0 0" size="0.00425" pos="0.00000 0.00000 0.03400" name="top_site" />
+      <site rgba="0 0 0 0" size="0.00425" pos="0.02125 0.02125 0.00000" name="horizontal_radius_site" />
+    </body>
+  </worldbody>
+</mujoco>

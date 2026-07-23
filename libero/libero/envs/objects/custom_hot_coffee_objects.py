@@ -48,9 +48,16 @@ class HeatingPad(HotCoffeeObject):
         self._release_threshold = -0.0002
         self._toggle_cooldown = 15
         self._cooldown_remaining = 0
-        self.object_properties["vis_site_names"]["indicator"] = (
-            self.naming_prefix + "indicator",
-            True,
+        self._set_indicator_sites()
+
+    def _set_indicator_sites(self):
+        self.object_properties["vis_site_names"]["indicator_on"] = (
+            self.naming_prefix + "indicator_on",
+            self._power_on,
+        )
+        self.object_properties["vis_site_names"]["indicator_off"] = (
+            self.naming_prefix + "indicator_off",
+            not self._power_on,
         )
 
     def _update_power_state(self, qpos):
@@ -71,10 +78,7 @@ class HeatingPad(HotCoffeeObject):
         elif is_released and self._cooldown_remaining == 0:
             self._button_armed = True
 
-        self.object_properties["vis_site_names"]["indicator"] = (
-            self.naming_prefix + "indicator",
-            self._power_on,
-        )
+        self._set_indicator_sites()
         return self._power_on
 
     def turn_on(self, qpos):
@@ -82,10 +86,7 @@ class HeatingPad(HotCoffeeObject):
         return self._power_on
 
     def turn_off(self, qpos):
-        self.object_properties["vis_site_names"]["indicator"] = (
-            self.naming_prefix + "indicator",
-            self._power_on,
-        )
+        self._set_indicator_sites()
         return not self._power_on
 
 

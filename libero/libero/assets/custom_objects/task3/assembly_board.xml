@@ -13,9 +13,9 @@
       <body name="object">
         <site name="top_region" type="box" pos="0 0 0.070"
               quat="1 0 0 0" size="0.115 0.105 0.040" rgba="0 0 0 0"/>
-        <site name="hex_region" type="box" pos="-0.055 0.030 0.070"
+        <site name="hex_region" type="box" pos="0.055 -0.030 0.070"
               quat="1 0 0 0" size="0.040 0.036 0.040" rgba="0 0 0 0"/>
-        <site name="round_region" type="box" pos="0.055 -0.030 0.070"
+        <site name="round_region" type="box" pos="-0.055 0.030 0.070"
               quat="1 0 0 0" size="0.040 0.036 0.040" rgba="0 0 0 0"/>
 
         <geom name="board_collision" type="box" pos="0 0 0.017"
@@ -42,29 +42,29 @@
               size="0.004 0.119 0.004" material="edge_mat"
               contype="0" conaffinity="0" group="1"/>
 
-        <geom name="hex_frame_front_visual" type="box" pos="-0.055 -0.006 0.047"
+        <geom name="hex_frame_front_visual" type="box" pos="0.055 -0.066 0.047"
               size="0.042 0.002 0.0004" material="hex_frame_mat"
               contype="0" conaffinity="0" group="1"/>
-        <geom name="hex_frame_back_visual" type="box" pos="-0.055 0.066 0.047"
+        <geom name="hex_frame_back_visual" type="box" pos="0.055 0.006 0.047"
               size="0.042 0.002 0.0004" material="hex_frame_mat"
               contype="0" conaffinity="0" group="1"/>
-        <geom name="hex_frame_left_visual" type="box" pos="-0.097 0.030 0.047"
+        <geom name="hex_frame_left_visual" type="box" pos="0.013 -0.030 0.047"
               size="0.002 0.039 0.0004" material="hex_frame_mat"
               contype="0" conaffinity="0" group="1"/>
-        <geom name="hex_frame_right_visual" type="box" pos="-0.013 0.030 0.047"
+        <geom name="hex_frame_right_visual" type="box" pos="0.097 -0.030 0.047"
               size="0.002 0.039 0.0004" material="hex_frame_mat"
               contype="0" conaffinity="0" group="1"/>
 
-        <geom name="round_frame_front_visual" type="box" pos="0.055 -0.066 0.047"
+        <geom name="round_frame_front_visual" type="box" pos="-0.055 -0.006 0.047"
               size="0.042 0.002 0.0004" material="round_frame_mat"
               contype="0" conaffinity="0" group="1"/>
-        <geom name="round_frame_back_visual" type="box" pos="0.055 0.006 0.047"
+        <geom name="round_frame_back_visual" type="box" pos="-0.055 0.066 0.047"
               size="0.042 0.002 0.0004" material="round_frame_mat"
               contype="0" conaffinity="0" group="1"/>
-        <geom name="round_frame_left_visual" type="box" pos="0.013 -0.030 0.047"
+        <geom name="round_frame_left_visual" type="box" pos="-0.097 0.030 0.047"
               size="0.002 0.039 0.0004" material="round_frame_mat"
               contype="0" conaffinity="0" group="1"/>
-        <geom name="round_frame_right_visual" type="box" pos="0.097 -0.030 0.047"
+        <geom name="round_frame_right_visual" type="box" pos="-0.013 0.030 0.047"
               size="0.002 0.039 0.0004" material="round_frame_mat"
               contype="0" conaffinity="0" group="1"/>
       </body>

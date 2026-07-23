@@ -121,6 +121,14 @@ class CrumpledPaper(PackagingObject):
 
 
 @register_object
+class LargeCrumpledPaper(PackagingObject):
+    def __init__(self, name="large_crumpled_paper", joints="free"):
+        if joints == "free":
+            joints = [dict(type="free", damping="0.22")]
+        super().__init__(name, "large_crumpled_paper", joints=joints)
+
+
+@register_object
 class FoamBoardFit(PackagingObject):
     def __init__(self, name="foam_board_fit", joints="free"):
         super().__init__(name, "foam_board_fit", joints=joints)
