@@ -342,4 +342,8 @@ pip install -e third_party/joycon-robotics
 
 建议在VScode中安装一个codex,可解决大多数问题
 
-
+## 7.任务分配
+任务1 已完成
+任务2-4   喻婷师妹
+任务5-7   郑扬师弟
+任务8-10  李雪龙师弟
