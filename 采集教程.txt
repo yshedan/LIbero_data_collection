@@ -319,6 +319,9 @@ libero/libero/bddl_files/custom_tasks/9_OFFICE_CADDY_SCENE_put_the_tape_roll_and
 libero/libero/bddl_files/custom_tasks/10_SNACK_STORAGE_SCENE_put_the_cookies_and_the_cream_cheese_in_the_snack_basket_after_moving_blocking_snacks.bddl
 ```
 
+
+
+
 ## 6. 常见问题
 
 Meta Quest 导入失败：
@@ -336,3 +339,7 @@ pip install -e third_party/joycon-robotics
 采集窗口没有显示：
 
 确认本机有图形桌面，不要在纯 SSH 无显示环境中运行。
+
+建议在VScode中安装一个codex,可解决大多数问题
+
+
