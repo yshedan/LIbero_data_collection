@@ -1,0 +1,63 @@
+(define (problem LIBERO_Tabletop_Manipulation)
+  (:domain robosuite)
+  (:language put the ceramic mug into the gift box and close the box)
+  (:regions
+    (ceramic_gift_box_init_region
+      (:target main_table)
+      (:ranges (
+        (-0.12 0.12 -0.04 0.18)
+      ))
+      (:yaw_rotation (
+        (0.0 0.0)
+      ))
+    )
+    (shared_loose_object_regions
+      (:target main_table)
+      (:ranges (
+        (-0.24 -0.25 -0.06 -0.09)
+        (0.00 -0.25 0.18 -0.09)
+        (-0.22 -0.08 -0.04 0.08)
+        (0.04 -0.08 0.22 0.08)
+      ))
+      (:yaw_rotation (
+        (0.0 3.14159)
+      ))
+    )
+    (contain_region
+      (:target ceramic_gift_box_1)
+    )
+  )
+
+  (:fixtures
+    main_table - table
+    ceramic_gift_box_1 - ceramic_gift_box
+  )
+
+  (:objects
+    small_porcelain_mug_1 - small_porcelain_mug
+    crumpled_paper_1 - crumpled_paper
+    tape_roll_1 - tape_roll
+  )
+
+  (:obj_of_interest
+    small_porcelain_mug_1
+    crumpled_paper_1
+    tape_roll_1
+    ceramic_gift_box_1
+  )
+
+  (:init
+    (On ceramic_gift_box_1 main_table_ceramic_gift_box_init_region)
+    (Open ceramic_gift_box_1)
+    (On small_porcelain_mug_1 main_table_shared_loose_object_regions)
+    (On crumpled_paper_1 main_table_shared_loose_object_regions)
+    (On tape_roll_1 main_table_shared_loose_object_regions)
+  )
+
+  (:goal
+    (And
+      (In small_porcelain_mug_1 ceramic_gift_box_1_contain_region)
+      (Close ceramic_gift_box_1)
+    )
+  )
+)

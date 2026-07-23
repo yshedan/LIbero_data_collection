@@ -1,0 +1,64 @@
+(define (problem LIBERO_Tabletop_Manipulation)
+  (:domain robosuite)
+  (:language move the hot coffee mug from the heating pad to the coaster and turn off the power)
+    (:regions
+      (heating_pad_init_region
+          (:target main_table)
+          (:ranges (
+              (-0.04 0.08 0.06 0.18)
+              (0.04 0.06 0.14 0.16)
+            )
+          )
+          (:yaw_rotation (
+              (3.14159 3.14159)
+            )
+          )
+      )
+      (coaster_init_region
+          (:target main_table)
+          (:ranges (
+              (-0.12 -0.24 0.00 -0.12)
+              (0.02 -0.24 0.14 -0.12)
+            )
+          )
+          (:yaw_rotation (
+              (0.0 0.0)
+            )
+          )
+      )
+      (mug_region
+          (:target heating_pad_1)
+      )
+      (contain_region
+          (:target small_wooden_tray_1)
+      )
+    )
+
+  (:fixtures
+    main_table - table
+    heating_pad_1 - heating_pad
+    small_wooden_tray_1 - small_wooden_tray
+  )
+
+  (:objects
+    red_coffee_mug_with_coffee_1 - red_coffee_mug_with_coffee
+  )
+
+  (:obj_of_interest
+    red_coffee_mug_with_coffee_1
+    heating_pad_1
+    small_wooden_tray_1
+  )
+
+  (:init
+    (On heating_pad_1 main_table_heating_pad_init_region)
+    (On small_wooden_tray_1 main_table_coaster_init_region)
+    (On red_coffee_mug_with_coffee_1 heating_pad_1_mug_region)
+    (Turnon heating_pad_1)
+  )
+
+  (:goal
+    (And (In red_coffee_mug_with_coffee_1 small_wooden_tray_1_contain_region) (Turnoff heating_pad_1))
+  )
+
+)
