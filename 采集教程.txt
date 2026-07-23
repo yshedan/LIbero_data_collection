@@ -3,7 +3,7 @@
 默认代码目录：
 
 ```bash
-/home/ysd/NewDisk/ysd/code/LIBERO
+/home/ysd/NewDisk/ysd/code/LIBERO    (下载后自行修改为对应的路径)
 ```
 
 第三方设备代码目录：
@@ -143,10 +143,11 @@ python scripts/collect_demonstration.py \
   --metaquest-controller right \
   --directory /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0 \
   --camera agentview \
-  --num-demonstration 30 \
-  --success-hold-seconds 5 \
-  --bddl-file "libero/libero/bddl_files/custom_tasks/MEDICAL_CARE_TWO_BOX_SCENE_put_the_medicine_bottle_and_the_bandage_in_the_care_box,_and_put_the_scissors_in_the_instrument_box.bddl"
+  --num-demonstration 10 \
+  --success-hold-seconds 3 \
+  --bddl-file "libero/libero/bddl_files/custom_tasks/1_MEDICAL_CARE_TWO_BOX_SCENE_put_the_medicine_bottle_and_the_bandage_in_the_care_box,_and_put_the_scissors_in_the_instrument_box.bddl"
 ```
+  （bddl-file 按照1-10不同任务对应修改；该路径“/home/ysd/NewDisk/ysd/code/LIBERO”替换为真实路径）
 
 常用灵敏度：
 
@@ -207,6 +208,7 @@ cd /home/ysd/NewDisk/ysd/code/LIBERO
 ```
 
 ### 3.2 连接设备
+连接方式参考该链接教程： https://github.com/box2ai-robotics/joycon-robotics
 
 ```bash
 bluetoothctl
@@ -244,7 +246,7 @@ python scripts/collect_demonstration_joycon.py \
   --camera agentview \
   --num-demonstration 30 \
   --success-hold-seconds 5 \
-  --bddl-file "libero/libero/bddl_files/custom_tasks/DRAWER_RING_ASSEMBLY_SCENE_insert_the_round_sleeve_onto_the_round_post_and_the_hex_sleeve_onto_the_hex_post_on_the_assembly_board.bddl"
+  --bddl-file "libero/libero/bddl_files/custom_tasks/7_DRAWER_RING_ASSEMBLY_SCENE_insert_the_round_sleeve_onto_the_round_post_and_the_hex_sleeve_onto_the_hex_post_on_the_assembly_board.bddl"
 ```
 
 常用灵敏度：
@@ -274,13 +276,18 @@ Y              放弃当前轨迹并重置
 
 ```text
 data/datasets0/
-  medical_care/
+  1_medical_care/
     时间戳目录/
       demo_000000/demo.hdf5
       demo_000001/demo.hdf5
 ```
 
-如果 `--directory` 写的是 `data/datasets0`，代码会根据 BDDL 文件名前两个单词自动建任务文件夹。
+如果 `--directory` 写的是 `/home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0`，代码会根据带序号的 BDDL 文件名自动建任务文件夹，格式是：
+
+```text
+1_MEDICAL_CARE_...bddl -> /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/1_medical_care
+10_SNACK_STORAGE_...bddl -> /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/10_snack_storage
+```
 
 查看某个 `demo.hdf5` 中有几条轨迹：
 
@@ -288,7 +295,7 @@ data/datasets0/
 python - <<'PY'
 import h5py
 
-path = "/home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/medical_care/时间戳目录/demo_000000/demo.hdf5"
+path = "/home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0/1_medical_care/时间戳目录/demo_000000/demo.hdf5"
 
 with h5py.File(path, "r") as f:
     demos = [key for key in f["data"].keys() if key.startswith("demo_")]
@@ -297,50 +304,22 @@ with h5py.File(path, "r") as f:
 PY
 ```
 
-## 5. 数据转换
-
-```bash
-cd /home/ysd/NewDisk/ysd/code/LIBERO
-conda activate libero
-
-python scripts/convert_libero_hdf5_to_demand_raw.py \
-  --input-dir /home/ysd/NewDisk/ysd/code/LIBERO/data/datasets0 \
-  --output-dir /home/ysd/NewDisk/ysd/code/LIBERO/data/libero_demand_raw_keyboard0
-```
-
-## 6. 生成 init_files
-
-`--num-states 10` 表示每个任务生成 10 个初始状态。
-
-```bash
-cd /home/ysd/NewDisk/ysd/code/LIBERO
-conda activate libero
-
-NUMBA_CACHE_DIR=/tmp/numba_cache MPLCONFIGDIR=/tmp/mpl_cache \
-python scripts/data/generate_custom_init_states.py \
-  --bddl-dir libero/libero/bddl_files/custom_tasks \
-  --output-dir libero/libero/init_files/custom_tasks \
-  --num-states 10 \
-  --seed 0 \
-  --resolution 256
-```
-
-## 7. 常用任务文件
+## 5. 常用任务文件
 
 ```text
-libero/libero/bddl_files/custom_tasks/MEDICAL_CARE_TWO_BOX_SCENE_put_the_medicine_bottle_and_the_bandage_in_the_care_box,_and_put_the_scissors_in_the_instrument_box.bddl
-libero/libero/bddl_files/custom_tasks/KITCHEN_PREP_COUNTER_SCENE_put_the_bowl_and_the_spoon_in_the_divided_cabinet,_and_put_the_knife_in_the_knife_rack.bddl
-libero/libero/bddl_files/custom_tasks/GLASS_PACKAGING_SCENE_put_the_glass_cup_in_the_cardboard_box_and_close_the_box_with_the_lid.bddl
-libero/libero/bddl_files/custom_tasks/CERAMIC_CUP_PACKAGING_SCENE_put_the_ceramic_cup_in_the_cardboard_box_and_close_the_box.bddl
-libero/libero/bddl_files/custom_tasks/DRAWER_RING_ASSEMBLY_SCENE_insert_the_round_sleeve_onto_the_round_post_and_the_hex_sleeve_onto_the_hex_post_on_the_assembly_board.bddl
-libero/libero/bddl_files/custom_tasks/SNACK_STORAGE_SCENE_put_the_cookies_and_the_cream_cheese_in_the_snack_basket_after_moving_blocking_snacks.bddl
-libero/libero/bddl_files/custom_tasks/OFFICE_CADDY_SCENE_put_the_tape_roll_and_the_eraser_in_the_desk_caddy_after_moving_blocking_items.bddl
-libero/libero/bddl_files/custom_tasks/HOT_PAN_STOVE_SCENE_move_the_hot_frying_pan_from_the_stove_to_the_trivet_and_turn_off_the_power.bddl
-libero/libero/bddl_files/custom_tasks/HOT_COFFEE_PAD_SCENE_move_the_hot_coffee_mug_from_the_heating_pad_to_the_coaster_and_turn_off_the_power.bddl
-libero/libero/bddl_files/custom_tasks/LIQUID_BOTTLE_STORAGE_SCENE_put_the_liquid_bottle_and_cap_on_the_storage_rack.bddl
+libero/libero/bddl_files/custom_tasks/1_MEDICAL_CARE_TWO_BOX_SCENE_put_the_medicine_bottle_and_the_bandage_in_the_care_box,_and_put_the_scissors_in_the_instrument_box.bddl
+libero/libero/bddl_files/custom_tasks/2_KITCHEN_PREP_COUNTER_SCENE_put_the_bowl_and_the_spoon_in_the_divided_cabinet,_and_put_the_knife_in_the_knife_rack.bddl
+libero/libero/bddl_files/custom_tasks/3_CERAMIC_CUP_PACKAGING_SCENE_put_the_ceramic_cup_in_the_cardboard_box_and_close_the_box.bddl
+libero/libero/bddl_files/custom_tasks/4_GLASS_PACKAGING_SCENE_put_the_glass_cup_in_the_cardboard_box_and_close_the_box_with_the_lid.bddl
+libero/libero/bddl_files/custom_tasks/5_HOT_COFFEE_PAD_SCENE_move_the_hot_coffee_mug_from_the_heating_pad_to_the_coaster_and_turn_off_the_power.bddl
+libero/libero/bddl_files/custom_tasks/6_HOT_PAN_STOVE_SCENE_move_the_hot_frying_pan_from_the_stove_to_the_trivet_and_turn_off_the_power.bddl
+libero/libero/bddl_files/custom_tasks/7_DRAWER_RING_ASSEMBLY_SCENE_insert_the_round_sleeve_onto_the_round_post_and_the_hex_sleeve_onto_the_hex_post_on_the_assembly_board.bddl
+libero/libero/bddl_files/custom_tasks/8_LIQUID_BOTTLE_STORAGE_SCENE_put_the_liquid_bottle_and_cap_on_the_storage_rack.bddl
+libero/libero/bddl_files/custom_tasks/9_OFFICE_CADDY_SCENE_put_the_tape_roll_and_the_eraser_in_the_desk_caddy_after_moving_blocking_items.bddl
+libero/libero/bddl_files/custom_tasks/10_SNACK_STORAGE_SCENE_put_the_cookies_and_the_cream_cheese_in_the_snack_basket_after_moving_blocking_snacks.bddl
 ```
 
-## 8. 常见问题
+## 6. 常见问题
 
 Meta Quest 导入失败：
 
