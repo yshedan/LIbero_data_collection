@@ -224,11 +224,26 @@ class MetaQuestReader:
             installed = self.device.is_installed(self.APK_name)
             if not installed or reinstall:
                 if APK_path is None:
-                    APK_path = os.path.join(
+                    apk_dir = os.path.join(
                         os.path.dirname(os.path.realpath(__file__)),
                         "APK",
-                        "teleop-debug.apk",
                     )
+                    apk_candidates = (
+                        "teleop-debug.apk",
+                        "teleop-pointer-frame-relative.apk",
+                        "teleop-rail-orig.apk",
+                    )
+                    for apk_name in apk_candidates:
+                        candidate_path = os.path.join(apk_dir, apk_name)
+                        if os.path.exists(candidate_path):
+                            APK_path = candidate_path
+                            break
+                    if APK_path is None:
+                        raise FileNotFoundError(
+                            "Cannot find a Meta Quest teleop APK in "
+                            f"{apk_dir}. Expected one of: "
+                            + ", ".join(apk_candidates)
+                        )
                 success = self.device.install(APK_path, test=True, reinstall=reinstall)
                 installed = self.device.is_installed(self.APK_name)
                 if installed and success:
